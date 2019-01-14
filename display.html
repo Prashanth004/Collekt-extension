@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="jquery.js"></script>
+
+    <script src="utils.js"></script>
+    <script src="api.js"></script>
+    <script src="test.js"></script>
+   
+    <script src="backened.js" async></script>
+
+
+    <link rel="stylesheet" type="text/css" href="display.css">
+    <title>Document</title>
+</head>
+
+<body class="main">
+
+    <button id="showCards" class="showCards">Collected cards</button>
+    <div class="personName">
+        <p id="name"><b>Welcome</b></p>
+    </div>
+
+    <div class="logo">
+        <img id="im" src="icn128.png" target="_blank">
+    </div>
+    <div class="wlcmMsg">
+        <p class="moto">Simple way to collect your social media contacts</p>
+
+    </div>
+    <div class="welcome">
+        <p>Browse through your social media to collect cards</p>
+
+    </div>
+    <div class="serverDown">
+        <p>The server seems to be down. Please bare with the inconvinienece. We will get you back</p>
+
+    </div>
+   
+    <div class="warning1">
+        <p>Card with the name <span id="pevname">bla</span> has already been collected.Enter any custom name to identify
+            this person.</p>
+    </div>
+    <div class="warning2">
+        <p>Card with the name <span id="pevname2">bla</span> has been collected from <span id="prevDomain"> bla</span>.
+            Is it the same person. <span><a id="link" href="#" target="_blank">click here</a></span></p>
+    </div>
+    <div class="msgSmall">
+        <p>This card is already collected</p>
+    </div>
+    
+
+
+    <div Class="name">
+        <textarea placeholder="Enter name..." id="nameEnter"></textarea>
+    </div>
+    <div Class="reason">
+        <textarea placeholder="Enter the reason ..." id="reason"></textarea>
+    </div>
+    <div Class="list" id="list">
+        <label style="width:50%; float:left;padding-left:15px">Add to list :</label>
+        <div Class="listInside" id="list">
+            </div>
+       
+
+    </div>
+    <div class="yesno">
+        <button id="yes">yes</button>
+        <button id="no">no</button>
+    </div>
+    <div class="oprButton">
+        <button id="submit">Submit</button>
+        <div class="wrapper">
+            <div class="auto">
+                <h4>Automatic</h4>
+            </div>
+            <div class="toggle">
+                <label class="switch">
+                    <input type="checkbox" id="cb1">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+
+
+        </div>
+        <div class="google">
+            <button id="google" class="loginBtn">
+                Sign in with Google
+            </button>
+        </div>
+
+
+        <button id="close">Close</button>
+
+</body>
+
+</html>
