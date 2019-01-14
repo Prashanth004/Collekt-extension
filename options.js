@@ -849,13 +849,7 @@ $('#export').click(function(){
 
     $('#logout').click(function () {
 
-      socket.emit('logout', {
-        logout: 1
-      });
-      socket.emit('closeiframe', {
-        close:1,
-        refresh:1
-         });
+    
 
 
       var settings1 = {
@@ -874,15 +868,16 @@ $('#export').click(function(){
 
       }).then(function () {
         var htmlText = '';
-        $('div').innerHTML = " ";
-        $('div').empty();
-        htmlText += '<div >';
-        htmlText += '<p>Click to visit your cards. </p>';
-        htmlText += '<button type="submit" id="cards"class="btn btn-primary">Cards</button>';
-        htmlText += '</div>';
         $('#wrapper').append(htmlText);
         setTimeout(function () {
-          window.close();
+          socket.emit('logout', {
+            logout: 1
+          });
+       
+          socket.emit('closeiframe', {
+            close:1,
+            refresh:1
+             });
         }, 2000);
       })
     })
