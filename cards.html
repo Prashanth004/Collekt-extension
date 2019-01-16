@@ -11,9 +11,10 @@
   <script src="jquery.js"></script>
   <script src="utils.js" async></script>
   <script src="test.js" async></script>
+  <script src="api.js" async></script>
+  <script src="api_call.js" async></script>
   <script src="options.js" async></script>
   <script src="display.js" async></script>
-  <script src="api_call.js" async></script>
   <script src="dialog.js" async></script>
 
 
@@ -28,22 +29,32 @@
 
 
 <body style="background-color:rgb(248, 245, 245)">
-
+  <div class="nav_button logo" style="position:absolute; left:45px"><img id="logo" width="100%" height="100%" src="logo.png"
+    /></div>
   <div class="nav">
-    <button class="nav_button" id="facebook">Facebook</button>
-    <button class="nav_button" id="twitter">Twitter</button>
-    <button class="nav_button" id="linkedin">LinkedIn</button>
-    <button class="nav_button" id="angel">AngelList</button>
+    <div class="nav_button" style="position:absolute; padding-top:20px;top:-1px;left:140px" id="nav_button_filter">Filters<span class="caret"></span></div>
+    <div class="dropdown-content-nav" id="navFilterDropdown">
+      <button class="no_button-nav" id="facebook">Facebook</button>
+      <button class="no_button-nav" id="twitter">Twitter</button>
+      <button class="no_button-nav" id="linkedin">LinkedIn</button>
+      <button class="no_button-nav" id="angel">AngelList</button>
+    </div>
     <input class="search" id="card-search" type="text" placeholder="Search..">
-    <button class="nav_list" style="position:relative; left:470px" id="nav_card">Cards</button>
-    
-      <button class="nav_button" style="position:relative; left:560px ;" ><a href='https://bookmane.in/collekt/product/exporttocsv' target="_blank">Export To CSV file</a></button>
+    <button class="nav_button" style="position:absolute; left:200px" id="nav_card">Cards</button>
 
-    <button class="nav_list" style="position:relative; left:340px" id="List">Lists</button>
+
+    <button class="nav_button" style="position:absolute; left:260px" id="List">Lists</button>
     <div class="nav_button profile_pic"><img id="profileImg" width="100%" height="100%" src="https://lh3.googleusercontent.com/-7PRMk4y2rF0/AAAAAAAAAAI/AAAAAAAAAAA/AGDgw-gwuxdlcP8NeztP6PuG96ltSjSLYg/mo/photo.jpg"
       /></div>
-    <button class="nav_button" style="position:relative; left:570px" id="pName">Prashanth</button>
-    <button class="nav_button" id="logout" style="position:relative; left:590px">Logout</button>
+    <button class="nav_button" id="opt" style="position:absolute; width:190px;text-align: left;padding:15px; left:1110px" id="pName">Prashanth</button>
+    <!-- <span id="opt" style="position:absolute;  left:1270px" class="caret"></span> -->
+    <div class="dropdown-content-nav" id="navOptionDropdown">
+      <button class="no_button-nav" id="logout">Logout</button>
+      <p style="text-align: center"><a href='http://localhost:1234/product/exporttocsv' target="_blank">Export </a></p>
+
+
+    </div>
+
 
     <div id="crt_Modal" class="modal">
       <div class="modal-content">
@@ -58,7 +69,7 @@
     <div id="crt_Modal_confirm" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
-       <p>List Successfully Created</p>
+        <p>List Successfully Created</p>
       </div>
     </div>
 
@@ -77,57 +88,88 @@
       </div>
     </div>
 
-    <div id="cust_pop">
-      <div id="myModal_edit" class="modal">
 
-        <!-- Modal content -->
-        <div class="modal-content">
-          <div id="cont">
-            <span class="close">&times;</span>
-            <Label>Enter the reason:</Label>
-            <br>
-            <br>
-            <input type="text" class="form-control" id="why">
-            <br>
-            <button id="confirm" class=" btn btn-danger">Submit</button>
-          </div>
+    <div id="editList" class="modal">
+
+
+      <div style="height:375px" class="modal-content">
+        <div id="cardCheckList"></div>
+        <span class="close">&times;</span>
+        <h3 id="lstName">List Name</h3>
+        <div id="checkBoxes">
+          
         </div>
+        <button id="dltCardsFrmLst" class="solidButton dltBtn">delete</button>
+        <button id="confirm" class="solidButton">Cancel</button>
+       
 
       </div>
-      <div id="myModal_edit_success" class="modal">
 
-        <!-- Modal content -->
-        <div class="modal-content">
-          <div id="cont">
-            <span class="close">&times;</span>
-           <p>Model sucessfully updates</p>
-          </div>
-        </div>
 
-      </div>
     </div>
-    <div id="sevre-modal" class="modal">
+  </div>
+
+
+
+
+
+  <div id="cust_pop">
+    <div id="myModal_edit" class="modal">
 
       <!-- Modal content -->
       <div class="modal-content">
-        <span class="close">&times;</span>
-        <p>The server seems to be down. Please bare with the inconvinienece. We will get you back</p>
-        <br>
-        <button id="cancel" class="btn btn-primary">Okay</button>
+        <div id="cont">
+          <span class="close">&times;</span>
+          <Label>Enter the reason:</Label>
+          <br>
+          <br>
+          <input type="text" class="form-control" id="why">
+          <br>
+          <button id="confirm" class=" btn btn-danger">Submit</button>
+        </div>
       </div>
+
     </div>
-    <div id="linkModal" class="modal">
+
+
+
+
+
+
+    <div id="myModal_edit_success" class="modal">
 
       <!-- Modal content -->
-      <div id="mdalCont" class="modal-content">
+      <div class="modal-content">
+        <div id="cont">
+          <span class="close">&times;</span>
+          <p>Model sucessfully updates</p>
+        </div>
       </div>
+
     </div>
-    <div id="main">
+  </div>
+  <div id="sevre-modal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>The server seems to be down. Please bare with the inconvinienece. We will get you back</p>
+      <br>
+      <button id="cancel" class="btn btn-primary">Okay</button>
     </div>
-    
-    <div class="wrapper">
+  </div>
+  <div id="linkModal" class="modal">
+
+    <!-- Modal content -->
+    <div id="mdalCont" class="modal-content">
     </div>
-   
+  </div>
+  <div id="main">
+  </div>
+
+  <div class="wrapper">
+  </div>
+
 
 </body>
 

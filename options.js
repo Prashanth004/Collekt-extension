@@ -1,4 +1,5 @@
 var socket = " "
+var yourArray = [];
 var cards = []
 function copyToClipboard(elementId) {
   var aux = document.createElement("input");
@@ -18,12 +19,44 @@ if ( config.server_down == 1) {
 }
 
 
+
+var deleteCardsFrmList = function(list_id, cardArray){
+
+  console.log("type of cardArray :",typeof(cardArray))
+
+  console.log("cardArray :",cardArray)
+  cardArray = JSON.stringify(cardArray)
+  console.log("type of cardArray :",typeof(cardArray))
+
+  console.log("cardArray :",cardArray)
+  var settings11 = {
+      "async": true,
+      "crossDomain": true,
+      "url":  config.domain+"/list/rm/"+list_id,
+      "method": "PUT",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      "data": {
+        "cardsId":cardArray
+      }
+    }
+    
+    $.ajax(settings11).done(function (response) {
+        if(response.status==200){
+        alert("delete")
+        }
+      console.log(response);
+    });
+}
+
+
 var crtList = function () {
   $('#main').empty()
   $('.wrapper').empty()
   var htmlCr = '';
   htmlCr += '<div id="crt_lst_btn" >';
-  htmlCr += '<buton id="crtLst">Create List</button>';
+  htmlCr += '<buton class = "solidButton"id="crtLst" style="position: absolute; top:60px;left:550px;">Create List</button>';
   htmlCr += '</div>';
 
   $('#main').append(htmlCr)
@@ -45,7 +78,9 @@ var crtList = function () {
       htmlElement += '<div class="card" style="width: 18rem;">';
       htmlElement += '<div class="List_div id="List_' + response[i]._id + '">';
       htmlElement += '<div class="div_name">';
-      htmlElement += '<p>' + response[i].List_name + '</p>';
+      htmlElement += '<p style="color:black;">' + response[i].List_name + '</p>';
+      htmlElement += '<p>Number of cards : '+(response[i].Cards_id).length+'</p>'
+
       htmlElement += '</div>';
       htmlElement += '<div class="div_button">';
       htmlElement += '<div class="drop_list"id="button_' + response[i]._id + '"><span class="caret"></span></div>';
@@ -53,7 +88,10 @@ var crtList = function () {
       htmlElement += '<div class="dropdown-content3" padding="12px" id="dropdown_options' + response[i]._id + '" aria-labelledby="dropdownMenuButton">';
       htmlElement += '<div class="no_button" id="share_' + response[i]._id + '">Share<i class="glyphicon glyphicon-share"></i></div>';
       htmlElement += '<div class="no_button" id="deletlst_' + response[i]._id + '">Delete<i class="glyphicon glyphicon-trash"></i></div>';
+      htmlElement += '<div class="no_button" id="editlst_' + response[i]._id + '">Edit<i class="glyphicon glyphicon-pencil"></i></div>';
+
       htmlElement += '</div>';
+
       htmlElement += '</div>';
       htmlElement += '</div>';
       htmlElement += '<div class="collapse" id="colapseli_' + response[i]._id + '">';
@@ -238,6 +276,23 @@ var get_all_lists = function () {
 }
 $(function () {
 
+  $('#nav_button_filter').click(function(){
+    $('#navFilterDropdown').slideDown('fast', function () {
+    })
+    $('#navFilterDropdown').mouseleave(function () {
+      $('#navFilterDropdown').slideUp('fast');
+    });
+  })
+  $('#opt').click(function(){
+    $('#navOptionDropdown').slideDown('fast', function () {
+
+    })
+    $('#navOptionDropdown').mouseleave(function () {
+      $('#navOptionDropdown').slideUp('slow');
+    });
+  });
+
+
 $('#export').click(function(){
   var settings = {
     "async": true,
@@ -253,7 +308,7 @@ $('#export').click(function(){
   $.ajax(settings).done(function (response) {
   });
 })
-  var socket = io.connect("https://bookmane.in/");
+  var socket = io.connect(config.socketUrl);
 
   socket.on('logout', function (data) {
    
@@ -410,6 +465,7 @@ $('#export').click(function(){
 
 
       var kind_of_id = id_name.split("_")[0]
+      _id = id_name.split("_")[1];
       if (kind_of_id == "public") {
         _id = id_name.split("_")[1];
         setTimeout(function () {
@@ -440,6 +496,61 @@ $('#export').click(function(){
 
           });
         }, 1000);
+
+
+
+      }
+
+
+      if(kind_of_id == "editlst"){
+
+        $("#editList").css({ 'display': 'block' });
+        $(".close").click(function () {
+          $("#editList").css({ 'display': 'none' });
+        })
+
+
+     
+
+        var list_setting112 = {
+          "async": true,
+          "crossDomain": true,
+          "url": config.domain+"/list/" + _id,
+          "method": "GET",
+          "headers": {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+        $.ajax(list_setting112).done(function (response) {
+          $('#lstName').text(response[0].List_name)
+          $('#checkBoxes').empty()
+          htmlElement = " "
+          for (var j in response[0].Cards_id) {
+            get_card_id(response[0].Cards_id[j])
+            htmlElement += '<div class="check">'
+            htmlElement += ' <input type="checkbox" name="CardsInList" value="'+response[0].Cards_id[j]+'">  '+profile_name+''
+            htmlElement += '<img style="float:right" height=20px; width=20px;" src="'+profile_domain +'.jpg">'
+            htmlElement += ' </div>'
+          }
+          $('#checkBoxes').append(htmlElement)
+        })
+       
+        $('#dltCardsFrmLst').click(function(){
+          cardArray = []
+        
+          $("input:checkbox[name=CardsInList]:checked").each(function(){
+           
+            cardArray.push($(this).val());
+        });
+        
+        serverCall.deleteCardsFrmList(_id,cardArray)
+        
+      
+
+        })
+       
+
+
 
 
 
@@ -570,7 +681,7 @@ $('#export').click(function(){
 
 
         _id = id_name.split("_")[1]
-        $('#colapseli_' + _id).toggle('fast', function () {
+        $('#colapseli_' + _id).toggle('slow', function () {
         })
 
         var list_setting111 = {

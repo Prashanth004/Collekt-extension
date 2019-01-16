@@ -1,11 +1,30 @@
-URLdomain= "https://bookmane.in/collekt"
+// URLdomain= "https://bookmane.in/collekt"
+URLdomain = "http://localhost:1234"
 chrome.runtime.onInstalled.addListener(function (object) {
     chrome.tabs.create({ url: URLdomain }, function (tab) {
     });
 });
 chrome.browserAction.onClicked.addListener(function(tab) { 
+    
+    config.server_down =1
+    test()
+    
 
-    chrome.tabs.sendMessage(tab.id, { action: "open_dialog_box" }, function (response) { });
+  if(config.server_down ==1){
+    chrome.tabs.sendMessage(tab.id, { action: "openServerProbem" }, function (response) { });
+  }
+    else if(config.isloggedin == 0 || config.active_status == 0){
+       
+        chrome.tabs.sendMessage(tab.id, { action: "open_login" }, function (response) { });
+
+    }
+     else{
+         alert("logedout")
+         chrome.tabs.sendMessage(tab.id, { action: "open_dialog_box" }, function (response) { });
+
+      
+    }
+
 
 });
 

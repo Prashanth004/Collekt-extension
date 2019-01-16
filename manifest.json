@@ -23,7 +23,7 @@
         ],
         "persistant": false
     },
-    "web_accessible_resources": ["display.html"],
+    "web_accessible_resources": ["display.html","Login.html","serverDown.html"],
     "content_scripts": [
         {
             "matches": [
@@ -39,6 +39,7 @@
                 "socketio.js",
                 "content.js",
                 "dialog.js",
+                "login.js",
                 "backened.js"
                
             ],

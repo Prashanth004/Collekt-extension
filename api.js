@@ -57,7 +57,7 @@ serverCall = {
         final_date = dat_num + " " + month_word + ". " + year_num
         return final_date;
     },
-    add_card_to_list : function (card_id, list_id) {
+    add_card_to_list_popup : function (card_id, list_id) {
         var settings = {
           "async": false,
           "crossDomain": true,
@@ -77,6 +77,32 @@ serverCall = {
           if (response.success == 1) {
         }
       })
-    }
+    },
+
+
+  
+
+    deleteCardsFrmList: function(list_id, cardArray){
+
+        cardArray = JSON.stringify(cardArray)
+    
+        var settings11 = {
+            "async": true,
+            "crossDomain": true,
+            "url":  config.domain+"/list/rm/"+list_id,
+            "method": "PUT",
+            "headers": {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            "data": {
+              "cardsId":cardArray
+            }
+          }
+          
+          $.ajax(settings11).done(function (response) {
+             location.reload()
+            console.log(response);
+          });
+      }
 
 }

@@ -1,7 +1,9 @@
 msgnew = null;
 name = " ";
 list=[];
-URLdomain = "https://bookmane.in/collekt"
+// URLdomain = "https://bookmane.in/collekt"
+URLdomain = "http://localhost:1234"
+URlsocket = "http://localhost:1234"
 
 chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
     if (msg.action == "showContent") {
@@ -72,12 +74,12 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
     }
 
 })
-var socket = io.connect("https://bookmane.in/");
+var socket = io.connect(URlsocket);
 
 
 $(function () {
     config.server_down = 1
-    test()
+
     
          $('#close').click(function () {
             chrome.runtime.sendMessage({ todo: "closeDisplay" });
@@ -90,37 +92,37 @@ $(function () {
         
 
     // alert(config.server_down)
-    if(config.server_down !=0 ){
+    // if(config.server_down !=0 ){
        
-        // $('#.serverDown').css({'display':'block'})
-        $('#showCards').css({ 'display': 'none' })
-        $('.msgSmall').css({ 'display': 'none' });
-        $('.list').css({ 'display': 'none' });
-        $('.welcome').text('Simple way to collect your social media contacts')
-        $('.auto').css({ 'display': 'none' })
-        $('.toggle').css({ 'display': 'none' })
-        $('.logo').css({ 'display': 'none' })
-        $('.personName').css({ 'display': 'none' })
-        $('.welcome').css({ 'display': 'none' });
-        $('.serverDown').css({'display':'block'})
+    //     // $('#.serverDown').css({'display':'block'})
+    //     $('#showCards').css({ 'display': 'none' })
+    //     $('.msgSmall').css({ 'display': 'none' });
+    //     $('.list').css({ 'display': 'none' });
+    //     $('.welcome').text('Simple way to collect your social media contacts')
+    //     $('.auto').css({ 'display': 'none' })
+    //     $('.toggle').css({ 'display': 'none' })
+    //     $('.logo').css({ 'display': 'none' })
+    //     $('.personName').css({ 'display': 'none' })
+    //     $('.welcome').css({ 'display': 'none' });
+    //     $('.serverDown').css({'display':'block'})
 
-    }
+    // }
 
-    else if (config.isloggedin != 1) {   
-        $('#showCards').css({ 'display': 'none' })
-        $('.msgSmall').css({ 'display': 'none' });
-        $('.list').css({ 'display': 'none' });
-        $('.welcome').text('Simple way to collect your social media contacts')
-        $('.auto').css({ 'display': 'none' })
-        $('.toggle').css({ 'display': 'none' })
-        $('.logo').css({ 'display': 'block' })
-        $('.personName').css({ 'display': 'none' })
-        $('.welcome').css({ 'display': 'none' });
-        // $('.warning2').css({ 'display': 'none' });
-        $('.wlcmMsg').css({'display':'block'})
-        $('#google').css({ 'display': 'block' })
+    // else if (config.isloggedin != 1) {   
+    //     $('#showCards').css({ 'display': 'none' })
+    //     $('.msgSmall').css({ 'display': 'none' });
+    //     $('.list').css({ 'display': 'none' });
+    //     $('.welcome').text('Simple way to collect your social media contacts')
+    //     $('.auto').css({ 'display': 'none' })
+    //     $('.toggle').css({ 'display': 'none' })
+    //     $('.logo').css({ 'display': 'block' })
+    //     $('.personName').css({ 'display': 'none' })
+    //     $('.welcome').css({ 'display': 'none' });
+    //     // $('.warning2').css({ 'display': 'none' });
+    //     $('.wlcmMsg').css({'display':'block'})
+    //     $('#google').css({ 'display': 'block' })
 
-    }
+    // }
 
     automatic = localStorage.getItem("autoCollect")
     // automatic =  msg.autoCollection;
@@ -131,15 +133,7 @@ $(function () {
     }
 
 
-    $('#google').click(function () {
-        localStorage.setItem("autoCollect", String(1)) 
-        var w = window.open(config.domain+"/auth/google", "extension_popup", "width=500,height=700,status=no,scrollbars=yes,resizable=no");
-        setTimeout(function () {
-           
-
-        }, 1000);
-
-    })
+ 
     $('.switch').click(function () {
         var a = $('#cb1').is(":checked")
         setTimeout(function () {
@@ -230,7 +224,7 @@ $(function () {
                  });
             if(config.listEmpty==0 && selctListValue !="0" ){
                 
-                serverCall.add_card_to_list(response.data._id,listField)
+                serverCall.add_card_to_list_popup(response.data._id,listField)
                 
              }
             
