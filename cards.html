@@ -12,6 +12,7 @@
   <script src="utils.js" async></script>
   <script src="test.js" async></script>
   <script src="api.js" async></script>
+  <script src="list.js"async></script>
   <script src="api_call.js" async></script>
   <script src="options.js" async></script>
   <script src="display.js" async></script>
@@ -32,14 +33,20 @@
   <div class="nav_button logo" style="position:absolute; left:45px"><img id="logo" width="100%" height="100%" src="logo.png"
     /></div>
   <div class="nav">
-    <div class="nav_button" style="position:absolute; padding-top:20px;top:-1px;left:140px" id="nav_button_filter">Filters<span class="caret"></span></div>
+    <div class="nav_button" style="position:absolute; padding-top:20px;top:-1px;left:140px" id="nav_button_filter">Filters<span
+        class="caret"></span></div>
     <div class="dropdown-content-nav" id="navFilterDropdown">
       <button class="no_button-nav" id="facebook">Facebook</button>
       <button class="no_button-nav" id="twitter">Twitter</button>
       <button class="no_button-nav" id="linkedin">LinkedIn</button>
       <button class="no_button-nav" id="angel">AngelList</button>
     </div>
-    <input class="search" id="card-search" type="text" placeholder="Search..">
+    <div id="search-card">
+      <input class="search" id="card-search" type="text" placeholder="Search Crads">
+    </div>
+    <div id="search-list">
+      <input class="search" id="list-search" type="text" placeholder="Search Lists">
+    </div>
     <button class="nav_button" style="position:absolute; left:200px" id="nav_card">Cards</button>
 
 
@@ -50,7 +57,7 @@
     <!-- <span id="opt" style="position:absolute;  left:1270px" class="caret"></span> -->
     <div class="dropdown-content-nav" id="navOptionDropdown">
       <button class="no_button-nav" id="logout">Logout</button>
-      <p style="text-align: center"><a href='http://localhost:1234/product/exporttocsv' target="_blank">Export </a></p>
+      <p style="text-align: center"><a href='http://localhost:1234/product/exporttocsv' target="_blank">Export to CSV</a></p>
 
 
     </div>
@@ -97,11 +104,11 @@
         <span class="close">&times;</span>
         <h3 id="lstName">List Name</h3>
         <div id="checkBoxes">
-          
+
         </div>
         <button id="dltCardsFrmLst" class="solidButton dltBtn">delete</button>
         <button id="confirm" class="solidButton">Cancel</button>
-       
+
 
       </div>
 

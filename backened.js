@@ -3,7 +3,7 @@ name = " ";
 list=[];
 // URLdomain = "https://bookmane.in/collekt"
 URLdomain = "http://localhost:1234"
-URlsocket = "http://localhost:1234"
+
 
 chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
     if (msg.action == "showContent") {
@@ -74,7 +74,7 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
     }
 
 })
-var socket = io.connect(URlsocket);
+
 
 
 $(function () {
@@ -83,7 +83,7 @@ $(function () {
     
          $('#close').click(function () {
             chrome.runtime.sendMessage({ todo: "closeDisplay" });
-        socket.emit('closeiframe', {
+            config.socket.emit('closeiframe', {
          close:1,
          refresh:0
           });
@@ -219,7 +219,7 @@ $(function () {
             }
         }
         $.ajax(settings).done(function (response) {
-            socket.emit('cardAdded', {
+            config.socket.emit('cardAdded', {
                 refresh:1
                  });
             if(config.listEmpty==0 && selctListValue !="0" ){

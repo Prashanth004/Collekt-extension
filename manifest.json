@@ -15,6 +15,7 @@
     },
     "background": {
         "scripts": [
+            "socketio.js",
             "utils.js",
             "eventPage.js",
             "api_call.js",
@@ -27,8 +28,6 @@
     "content_scripts": [
         {
             "matches": [
-                "https://*/*",
-                "http://*/*",
                 "https://www.facebook.com/*",
                 "https://twitter.com/*",
                 "https://www.linkedin.com/*",
@@ -37,6 +36,8 @@
             "js": [
                 "jquery.js",
                 "socketio.js",
+                "utils.js",
+                "test.js",
                 "content.js",
                 "dialog.js",
                 "login.js",

@@ -1,6 +1,6 @@
 // URLdomain = "https://bookmane.in/"
 URLdomain = "http://localhost:1234"
-URlsocket = "http://localhost:1234"
+
 
 
 chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
@@ -25,8 +25,7 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
 
 
 
-var socket = io.connect(URLdomain);
-socket.on('closeiframe', function (data) {
+config.socket.on('closeiframe', function (data) {
     if(data.refresh==1){
         refresh()
     }

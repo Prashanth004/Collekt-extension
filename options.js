@@ -1,4 +1,4 @@
-var socket = " "
+var list=[]
 var yourArray = [];
 var cards = []
 function copyToClipboard(elementId) {
@@ -51,15 +51,8 @@ var deleteCardsFrmList = function(list_id, cardArray){
 }
 
 
-var crtList = function () {
-  $('#main').empty()
-  $('.wrapper').empty()
-  var htmlCr = '';
-  htmlCr += '<div id="crt_lst_btn" >';
-  htmlCr += '<buton class = "solidButton"id="crtLst" style="position: absolute; top:60px;left:550px;">Create List</button>';
-  htmlCr += '</div>';
+var crtList = function (type) {
 
-  $('#main').append(htmlCr)
 
   var list_setting = {
     "async": false,
@@ -71,58 +64,10 @@ var crtList = function () {
     },
   }
   $.ajax(list_setting).done(function (response) {
-    var htmlElement = " "
-    var flag =1
-    for (var i in response) {
-      flag = 0
-      htmlElement += '<div class="card" style="width: 18rem;">';
-      htmlElement += '<div class="List_div id="List_' + response[i]._id + '">';
-      htmlElement += '<div class="div_name">';
-      htmlElement += '<p style="color:black;">' + response[i].List_name + '</p>';
-      htmlElement += '<p>Number of cards : '+(response[i].Cards_id).length+'</p>'
+for(items in response){
 
-      htmlElement += '</div>';
-      htmlElement += '<div class="div_button">';
-      htmlElement += '<div class="drop_list"id="button_' + response[i]._id + '"><span class="caret"></span></div>';
-      htmlElement += '<div class="option" id="options_' + response[i]._id + '"><i class="glyphicon glyphicon-option-vertical"></i></div>';
-      htmlElement += '<div class="dropdown-content3" padding="12px" id="dropdown_options' + response[i]._id + '" aria-labelledby="dropdownMenuButton">';
-      htmlElement += '<div class="no_button" id="share_' + response[i]._id + '">Share<i class="glyphicon glyphicon-share"></i></div>';
-      htmlElement += '<div class="no_button" id="deletlst_' + response[i]._id + '">Delete<i class="glyphicon glyphicon-trash"></i></div>';
-      htmlElement += '<div class="no_button" id="editlst_' + response[i]._id + '">Edit<i class="glyphicon glyphicon-pencil"></i></div>';
-
-      htmlElement += '</div>';
-
-      htmlElement += '</div>';
-      htmlElement += '</div>';
-      htmlElement += '<div class="collapse" id="colapseli_' + response[i]._id + '">';
-      htmlElement += '<div class="div_colapse_back">';
-      if ((response[i].Cards_id).length == 0) {
-        htmlElement += '<p>No cards present. Add cards to to lists in the cards section.</p>'
-      } else {
-        for (var j in response[i].Cards_id) {
-          htmlElement += '<div class="div_colapse">';
-          htmlElement += '<div class="div_name">';
-          htmlElement += '<p id="nmp_' + response[i]._id + '_' + response[i].Cards_id[j] + '"></p>';
-          htmlElement += '</div>';
-          htmlElement += '<a id="a_' + response[i]._id + '_' + response[i].Cards_id[j] + '" href="" target="_blank">';
-          htmlElement += '<img id="img_' + response[i]._id + '_' + response[i].Cards_id[j] + '";align=centre;height=25px; width=25px;  src="" />';
-          htmlElement += '</a>';
-          htmlElement += '</div>';
-        }
-      }
-      htmlElement += '</div>';
-      htmlElement += '</div>';
-      htmlElement += '</div>';
-    }
-
-    $('.wrapper').append(htmlElement);
-    if (flag == 1) {
-      htmlText = '';
-      htmlText += '<div class="container">'
-      htmlText += '<h1>Created your own customized list. Add Card to the list. Access and share the list anytime!!</h1>'
-      htmlText += '</div>'
-      $('.wrapper').append(htmlText)
-  }
+  list.push(response[items])
+}
   })
 }
 k = "918027681781"
@@ -207,6 +152,7 @@ var profile_name = " "
 var lists = []
 
 var get_card_id = function (id) {
+  
   var settings = {
     "async": false,
     "crossDomain": true,
@@ -308,40 +254,37 @@ $('#export').click(function(){
   $.ajax(settings).done(function (response) {
   });
 })
-  var socket = io.connect(config.socketUrl);
+  
 
-  socket.on('logout', function (data) {
+config.socket.on('logout', function (data) {
    
     window.close();
   });
  
 
-  socket.on('cardAdded', function (data) {
+  config.socket.on('cardAdded', function (data) {
     location.reload()
   });
-  
-  socket.on('delete', function (data) {
+  config.socket.on('delete', function (data) {
     $('#div_' + data).remove()
     setTimeout(function () {
       location.reload()
     }, 1000)
 
   })
-  socket.on('deleteLst', function (data) {
+  config.socket.on('deleteLst', function (data) {
     $('#myModal').css("display", "none")
     $('#List_' + data).remove()
-    crtList()
+    location.reload()
     setTimeout(function () {
 
       location.reload()
     }, 1000)
 
   })
+  config.socket.on('list_created', function (data) {
 
-  socket.on('list_created', function (data) {
-
-    crtList()
-
+    location.reload()
   });
 
 
@@ -380,6 +323,11 @@ $('#export').click(function(){
 
     })
 
+    $('#list-search').on('input', function () {
+      console.log(list)
+      display_search_list($('#list-search').val(),list)
+    })
+
 
     $('#card-search').on('input', function () {
       display_searched($('#card-search').val(), cards)
@@ -395,9 +343,15 @@ $('#export').click(function(){
       location.reload();
     })
     $('#List').click(function () {
-
-      crtList()
+      $('#search-card').css({
+        "display":"block"
+       })
+      $('#search-list').css({
+        "display":"block"
+       })
+      display_list(list)
     })
+ 
     $('#twitter').click(function () {
       display_content("twitter", cards)
     })
@@ -433,9 +387,7 @@ $('#export').click(function(){
         setTimeout(function () {
           $('#crt_Modal_confirm').css("display", "none")
 
-          socket.emit('list_created', {
-
-
+          config.socket.emit('list_created', {
             data: response
           });
 
@@ -461,11 +413,28 @@ $('#export').click(function(){
     $(document).delegate('div', 'click', function (button) {
       var id_name = button.currentTarget.id
 
-
-
-
       var kind_of_id = id_name.split("_")[0]
       _id = id_name.split("_")[1];
+
+      if (kind_of_id == "openList") {
+        get_card_id(_id)
+        $('#search-card').css({
+          "display":"block"
+         })
+        $('#search-list').css({
+          "display":"block"
+         })
+      //  $('#list-search').text(profile_name);
+       $('#list-search').val(profile_name) ;
+
+       display_search_list(profile_name,list)
+    
+      }
+      
+
+
+
+
       if (kind_of_id == "public") {
         _id = id_name.split("_")[1];
         setTimeout(function () {
@@ -659,7 +628,7 @@ $('#export').click(function(){
 
               htmlEl += '<p>Delete successfull</p>'
               $('.modal-content').append(htmlEl)
-              socket.emit('deleteLst', {
+              config.socket.emit('deleteLst', {
                 ID: _id
               })
             });
@@ -869,7 +838,7 @@ $('#export').click(function(){
           $('.modal-content').append(htmlEl)
           setTimeout(function () {
             $("#myModal").css({ 'display': 'none' });
-            socket.emit('delete', {
+            config.socket.emit('delete', {
               ID: _id
             })
             // $('#div_'+_id).remove()
@@ -981,11 +950,11 @@ $('#export').click(function(){
         var htmlText = '';
         $('#wrapper').append(htmlText);
         setTimeout(function () {
-          socket.emit('logout', {
+          config.socket.emit('logout', {
             logout: 1
           });
        
-          socket.emit('closeiframe', {
+          config.socket.emit('closeiframe', {
             close:1,
             refresh:1
              });

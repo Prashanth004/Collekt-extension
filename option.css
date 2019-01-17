@@ -117,6 +117,8 @@ left:5px;
   .no_button3{
     font-size:11px;
     float:left;
+    position:relative;
+    top:-17px;
     
 
   }
@@ -266,9 +268,21 @@ left:5px;
       border:2px
 
     }
+    #search-card{
+     display:block
+    }
+    #search-list{
+      display:none
+     }
+     .numberOfList{
+       position: relative;
+       top:0px;
+       left:-20px;
+     }
     
       
     .search {
+      display:none;
       position: absolute;
       right:580px;
       height: 30px;
@@ -371,7 +385,7 @@ left:5px;
       float:right;
       font-size: 11px;
       position: relative;
-      left:-65px;
+      left:-45px;
       /* bot200tom:0px; */
       top:18px;
       /* background-color: blue; */

@@ -208,14 +208,19 @@ var display_content = function (domain, cardsold) {
             htmlText += '</a>'
             htmlText += '</div>';
             htmlText += '<div class="dropdown1">';
-            htmlText += '<div class="no_button3" ><i class="glyphicon glyphicon-list"></i></div>';
-            htmlText += '<div style="float:right;" id="addtolist_' + cards[key]._id + '" ><span class="caret"></span></div>';
+            console.log("(cards[key].lists.length)-1 : ",(cards[key].lists.length)-1)
+            htmlText +='<div class="numberOfList" id="openList_'+ cards[key]._id+'">'+String((cards[key].lists.length)-1)+''
+            htmlText += '</div>';
+            // htmlText += '<p >'+String((cards[key].lists.length)-1)+'</p>'
+           
+            htmlText += '<div style="float:right;position:relative; top:-17px;" id="addtolist_' + cards[key]._id + '" ><i class="glyphicon glyphicon-list-alt"></i></div>';
             htmlText += '<div class="dropdown-content1" padding="12px" id="dropdown_list2' + cards[key]._id + '" aria-labelledby="dropdownMenuButton">';
             for (var k in list) {
                 htmlText += '<div class="no_button" id="selectlist_' + cards[key]._id + '_' + list[k]._id + '">' + list[k].List_name + '</div>';
             }
             htmlText += '<button class="no_button_last"  id="addnew_' + cards[key]._id + '">Create new list</button>';
-            htmlText += '</div>';
+         
+            htmlText +='</div>';
             htmlText += '</div>';
             // htmlText += '<div id="public_' + cards[key]._id + '"class="no_button4">'
             // htmlText += '<label class="switch">';

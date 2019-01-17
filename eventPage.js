@@ -1,8 +1,11 @@
 // URLdomain= "https://bookmane.in/collekt"
+var socket = " "
 URLdomain = "http://localhost:1234"
 chrome.runtime.onInstalled.addListener(function (object) {
     chrome.tabs.create({ url: URLdomain }, function (tab) {
     });
+    socket = io.connect(URLdomain)
+
 });
 chrome.browserAction.onClicked.addListener(function(tab) { 
     
@@ -10,18 +13,13 @@ chrome.browserAction.onClicked.addListener(function(tab) {
     test()
     
 
-  if(config.server_down ==1){
-    chrome.tabs.sendMessage(tab.id, { action: "openServerProbem" }, function (response) { });
-  }
-    else if(config.isloggedin == 0 || config.active_status == 0){
-       
-        chrome.tabs.sendMessage(tab.id, { action: "open_login" }, function (response) { });
+    if(config.isloggedin == 1 && config.active_status == 1){
+        chrome.tabs.sendMessage(tab.id, { action: "open_dialog_box" }, function (response) { });
 
     }
      else{
-         alert("logedout")
-         chrome.tabs.sendMessage(tab.id, { action: "open_dialog_box" }, function (response) { });
-
+       
+        chrome.tabs.sendMessage(tab.id, { action: "open_login" }, function (response) { });
       
     }
 
