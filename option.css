@@ -114,6 +114,7 @@ left:5px;
 
 
   }
+  
   .no_button3{
     font-size:11px;
     float:left;
@@ -276,7 +277,7 @@ left:5px;
      }
      .numberOfList{
        position: relative;
-       top:0px;
+       top:-5px;
        left:-20px;
      }
     
@@ -451,6 +452,44 @@ width:38%;
       top:-23px;
       
     }
+    .closeListCards{
+      float:right;
+      position: absolute;
+      top:75px;
+      font-size:15px;
+      /* color:#888; */
+      right:175px;
+      display:none;
+      background-color:#eee;
+      border-radius:3px;
+      border-style:solid;
+      border-width:1px;
+      border-color:black;
+      height:35px;
+      width:70px;
+      padding:5px;
+      /* padding:5px; */
+
+
+    }
+    .listName{
+      position: absolute;
+      top:65px;
+      left:555px;
+      font-size: 20px;
+      
+      display:none;
+      background-color:white;
+      border-radius:3px;
+      padding-top:12px;
+      padding-bottom:12px;
+      padding-left:20px;
+      padding-right:20px;
+      border-color:#888;
+      border-style:solid;
+      border-width:1px;
+
+    }
 
 .stickers{
   /* box-shadow: 0px 0px 10px 5px rgba(216, 216, 216, 0.164); */
@@ -523,6 +562,8 @@ width:38%;
    margin:-8; 
   color:rgb(116, 115, 115);
  background-color: white;
+ border-style:none;
+
 }
 .no_button_last{
   margin:-8;

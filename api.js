@@ -1,3 +1,4 @@
+var isTrue = true
 serverCall = {
     displayList: function () {
         list = []
@@ -21,7 +22,7 @@ serverCall = {
             htmlEmelent5 = ""
             htmlEmelent5 += '<div style="width:50%; float:right; padding-right:15px; " class="select">'
             htmlEmelent5 += '<select name="search_categories" id="search_categories">'
-            htmlEmelent5 += '<option value="0">Select one</optioon>'
+            htmlEmelent5 += '<option value="0" >Select one</optioon>'
             for (var items in list) {
                 htmlEmelent5 += '<option value="' + list[items]._id + '">' + list[items].List_name + '</option>'
             }
@@ -74,8 +75,22 @@ serverCall = {
       
         $.ajax(settings).done(function (response) {
       
-          if (response.success == 1) {
-        }
+            var settings = {
+                "async": false,
+                "crossDomain": true,
+                "url": config.domain+"/product/list/" + card_id,
+                "method": "PUT",
+                "headers": {
+                  "Content-Type": "application/x-www-form-urlencoded",
+                },
+                "data": {
+            
+                  "listId": list_id,
+                }
+            }
+            $.ajax(settings).done(function (response) {
+                    console.log(response)
+                })
       })
     },
 
@@ -84,7 +99,7 @@ serverCall = {
 
     deleteCardsFrmList: function(list_id, cardArray){
 
-        cardArray = JSON.stringify(cardArray)
+      
     
         var settings11 = {
             "async": true,
@@ -100,9 +115,10 @@ serverCall = {
           }
           
           $.ajax(settings11).done(function (response) {
-             location.reload()
-            console.log(response);
+            isTrue = true
+           
           });
+         
       }
 
 }

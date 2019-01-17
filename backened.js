@@ -1,6 +1,6 @@
 msgnew = null;
 name = " ";
-list=[];
+list = [];
 // URLdomain = "https://bookmane.in/collekt"
 URLdomain = "http://localhost:1234"
 
@@ -15,19 +15,19 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
         serverCall.displayList()
         $('#name').text(msg.User_name_new)
         msgnew = msg
-        
+
         $('#close').click(function () {
             chrome.runtime.sendMessage({ todo: "closeDisplay" });
         })
-    
-        
+
+
         if (msg.isCollected == 1) {
             $('.welcome').css({ 'display': 'none' });
             $('.msgSmall').css({ 'display': 'block' });
             $('.reason').css({ 'display': 'none' });
             $('.list').css({ 'display': 'none' });
-            $('#submit').css({ 'display': 'none' });   0
-            chrome.runtime.sendMessage({ todo: "closeDisplay" });   
+            $('#submit').css({ 'display': 'none' }); 0
+            chrome.runtime.sendMessage({ todo: "closeDisplay" });
         }
         else {
             if (showname == 1) {
@@ -40,7 +40,7 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
                 $('.name').css({ 'display': 'block' });
                 $('.reason').css({ 'display': 'block' });
                 $('.list').css({ 'display': 'block' });
-               
+
                 $('#submit').css({ 'display': 'block' });
             }
             else if (showYesNo == 1) {
@@ -50,9 +50,9 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
                 $('#submit').css({ 'display': 'none' });
                 $('.reason').css({ 'display': 'none' });
                 $('.list').css({ 'display': 'none' });
-               
+
                 $('#prevDomain').text(msg.befDomain);
-                $('#link').attr({'href':msg.befUrl});
+                $('#link').attr({ 'href': msg.befUrl });
                 $('.warning2').css({ 'display': 'block' });
                 $('#pevname2').text(msg.User_name_new);
                 $('.yesno').css({ 'display': 'block' });
@@ -78,51 +78,18 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
 
 
 $(function () {
+    var listField = null
     config.server_down = 1
 
-    
-         $('#close').click(function () {
-            chrome.runtime.sendMessage({ todo: "closeDisplay" });
-            config.socket.emit('closeiframe', {
-         close:1,
-         refresh:0
-          });
-        })
-   
-        
 
-    // alert(config.server_down)
-    // if(config.server_down !=0 ){
-       
-    //     // $('#.serverDown').css({'display':'block'})
-    //     $('#showCards').css({ 'display': 'none' })
-    //     $('.msgSmall').css({ 'display': 'none' });
-    //     $('.list').css({ 'display': 'none' });
-    //     $('.welcome').text('Simple way to collect your social media contacts')
-    //     $('.auto').css({ 'display': 'none' })
-    //     $('.toggle').css({ 'display': 'none' })
-    //     $('.logo').css({ 'display': 'none' })
-    //     $('.personName').css({ 'display': 'none' })
-    //     $('.welcome').css({ 'display': 'none' });
-    //     $('.serverDown').css({'display':'block'})
+    $('#close').click(function () {
+        chrome.runtime.sendMessage({ todo: "closeDisplay" });
+        config.socket.emit('closeiframe', {
+            close: 1,
+            refresh: 0
+        });
+    })
 
-    // }
-
-    // else if (config.isloggedin != 1) {   
-    //     $('#showCards').css({ 'display': 'none' })
-    //     $('.msgSmall').css({ 'display': 'none' });
-    //     $('.list').css({ 'display': 'none' });
-    //     $('.welcome').text('Simple way to collect your social media contacts')
-    //     $('.auto').css({ 'display': 'none' })
-    //     $('.toggle').css({ 'display': 'none' })
-    //     $('.logo').css({ 'display': 'block' })
-    //     $('.personName').css({ 'display': 'none' })
-    //     $('.welcome').css({ 'display': 'none' });
-    //     // $('.warning2').css({ 'display': 'none' });
-    //     $('.wlcmMsg').css({'display':'block'})
-    //     $('#google').css({ 'display': 'block' })
-
-    // }
 
     automatic = localStorage.getItem("autoCollect")
     // automatic =  msg.autoCollection;
@@ -133,17 +100,17 @@ $(function () {
     }
 
 
- 
+
     $('.switch').click(function () {
         var a = $('#cb1').is(":checked")
         setTimeout(function () {
             if (a) {
-               
+
                 localStorage.setItem("autoCollect", String(1))
             }
             else {
                 localStorage.setItem("autoCollect", String(0))
-              
+
             }
 
         }, 1000)
@@ -168,15 +135,16 @@ $(function () {
         chrome.tabs.create({ url: "cards.html" });
     })
     $('#submit').click(function () {
-        listField = " "
 
+        listField = null;
         selctListValue = $('#search_categories').val();
-        if(config.listEmpty==1 || selctListValue =="0" ){
-            var listField = " "
-         }
-         else{
-       var listField =selctListValue
-    }
+  
+        if (config.listEmpty == 1 || selctListValue == "0") {
+            listField = null;
+        }
+        else {
+            listField = selctListValue
+        }
         chrome.runtime.sendMessage({ todo: "closeDisplay" });
         if (msgnew.sameDomain == 1) {
             var name = $('#nameEnter').val()
@@ -196,11 +164,11 @@ $(function () {
         if (!why_text || why_text == "" || why_text == undefined) {
             why_text = "Edit this";
         }
-
         var settings = {
+            
             "async": false,
             "crossDomain": true,
-            "url": config.domain+"/product/create",
+            "url": config.domain + "/product/create",
             "method": "POST",
             "headers": {
                 "Content-Type": "application/x-www-form-urlencoded",
@@ -212,7 +180,7 @@ $(function () {
                 "time": time,
                 "domain": msgnew.domain,
                 "unq_name": msgnew.unq_name,
-                "lists":listField,
+                "lists": " ",
                 "public": 1,
                 "profile_url": msgnew.Url,
                 "sticker": sticker
@@ -220,15 +188,15 @@ $(function () {
         }
         $.ajax(settings).done(function (response) {
             config.socket.emit('cardAdded', {
-                refresh:1
-                 });
-            if(config.listEmpty==0 && selctListValue !="0" ){
-                
-                serverCall.add_card_to_list_popup(response.data._id,listField)
-                
-             }
-            
-           
+                refresh: 1
+            });
+            if (config.listEmpty == 0 && selctListValue != "0") {
+
+                serverCall.add_card_to_list_popup(response.data._id, listField)
+
+            }
+
+
         }).catch(err =>
             console.log("err : ", err))
 

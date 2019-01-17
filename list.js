@@ -82,7 +82,8 @@ var ElementFeed = function(response){
     htmlElement += '<p>'+response.Cards_id.length+' cards</p>'
     htmlElement += '</div>';
     htmlElement += '<div class="div_button">';
-    htmlElement += '<div class="drop_list"id="button_' + response._id + '"><span class="caret"></span></div>';
+    // <i class="glyphicon glyphicon-open"></i>
+    htmlElement += '<div class="drop_list"id="button_' + response._id + '"><i class="glyphicon glyphicon-open"></i></div>';
     htmlElement += '<div class="option" id="options_' + response._id + '"><i class="glyphicon glyphicon-option-vertical"></i></div>';
     htmlElement += '<div class="dropdown-content3" padding="12px" id="dropdown_options' + response._id + '" aria-labelledby="dropdownMenuButton">';
     htmlElement += '<div class="no_button" id="share_' + response._id + '">Share<i class="glyphicon glyphicon-share"></i></div>';

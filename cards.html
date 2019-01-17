@@ -12,7 +12,7 @@
   <script src="utils.js" async></script>
   <script src="test.js" async></script>
   <script src="api.js" async></script>
-  <script src="list.js"async></script>
+  <script src="list.js" async></script>
   <script src="api_call.js" async></script>
   <script src="options.js" async></script>
   <script src="display.js" async></script>
@@ -61,6 +61,12 @@
 
 
     </div>
+    <div class="listName">
+      <h3>List Name</h3>
+    </div>
+    <button class="closeListCards">
+      Close
+    </button>
 
 
     <div id="crt_Modal" class="modal">
@@ -76,7 +82,26 @@
     <div id="crt_Modal_confirm" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
-        <p>List Successfully Created</p>
+        <p id="msg">List Successfully Created</p>
+      </div>
+    </div>
+
+
+    <div id="deletFromCardModal" class="modal">
+      <div style="height:155px" class="modal-content">
+
+        <span class="close">&times;</span>
+        <div id="alert123">
+          <p>You can not retrieve data once deleted.Are you sure you wanna delete this card?</p>
+          <br>
+        </div>
+
+
+
+        <button id="dltCardsFrmLst" class="solidButton dltBtn">delete</button>
+        <button id="cancelDCFL" class="solidButton">Cancel</button>
+
+
       </div>
     </div>
 
@@ -96,24 +121,41 @@
     </div>
 
 
-    <div id="editList" class="modal">
-
-
-      <div style="height:375px" class="modal-content">
-        <div id="cardCheckList"></div>
-        <span class="close">&times;</span>
-        <h3 id="lstName">List Name</h3>
-        <div id="checkBoxes">
-
+    <div id="dltModal" class="modal">
+      <div style="height:155px" class="modal-content">
+        <div class="modal-dlt-cont">
+          <span class="close">&times;</span>
+        <div id="alertdlt">
+          
+          
         </div>
-        <button id="dltCardsFrmLst" class="solidButton dltBtn">delete</button>
-        <button id="confirm" class="solidButton">Cancel</button>
 
+        <button id="confirm_yes_dlt_lst" class="solidButton dltBtn">delete</button>
+        <button id="cancel_dlt_lst" class="solidButton">Cancel</button>
+      </div>
+      </div>
+    </div>
+  
+
+
+  <div id="editList" class="modal">
+
+
+    <div style="height:375px" class="modal-content">
+      <div id="cardCheckList"></div>
+      <span class="close">&times;</span>
+      <h3 id="lstName">List Name</h3>
+      <div id="checkBoxes">
 
       </div>
+      <button id="dltCardsFrmLst" class="solidButton dltBtn">delete</button>
+      <button id="confirm" class="solidButton">Cancel</button>
 
 
     </div>
+
+
+  </div>
   </div>
 
 
