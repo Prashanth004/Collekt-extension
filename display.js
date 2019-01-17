@@ -209,11 +209,11 @@ var display_content = function (domain, cardsold) {
             htmlText += '</div>';
             htmlText += '<div class="dropdown1">';
             console.log("(cards[key].lists.length)-1 : ",(cards[key].lists.length)-1)
-            htmlText +='<div class="numberOfList" id="openList_'+ cards[key]._id+'">'+String((cards[key].lists.length)-1)+''
+            htmlText +='<div class="numberOfList" id="openList_'+ cards[key]._id+'"><button class="no_button">'+String((cards[key].lists.length)-1)+'</button>'
             htmlText += '</div>';
             // htmlText += '<p >'+String((cards[key].lists.length)-1)+'</p>'
            
-            htmlText += '<div style="float:right;position:relative; top:-17px;" id="addtolist_' + cards[key]._id + '" ><i class="glyphicon glyphicon-list-alt"></i></div>';
+            htmlText += '<div style="float:right;position:relative; top:-25px;" id="addtolist_' + cards[key]._id + '" ><i class="glyphicon glyphicon-list-alt"></i></div>';
             htmlText += '<div class="dropdown-content1" padding="12px" id="dropdown_list2' + cards[key]._id + '" aria-labelledby="dropdownMenuButton">';
             for (var k in list) {
                 htmlText += '<div class="no_button" id="selectlist_' + cards[key]._id + '_' + list[k]._id + '">' + list[k].List_name + '</div>';

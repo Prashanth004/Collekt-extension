@@ -276,8 +276,9 @@ left:5px;
      }
      .numberOfList{
        position: relative;
-       top:0px;
+       top:-4px;
        left:-20px;
+       
      }
     
       
@@ -521,8 +522,9 @@ width:38%;
 .no_button{
  padding:5px; 
    margin:-8; 
-  color:rgb(116, 115, 115);
+  color:blue;
  background-color: white;
+ border-style: none;
 }
 .no_button_last{
   margin:-8;
