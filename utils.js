@@ -1,12 +1,12 @@
 
   
 var config = {
-     domain:"http://localhost:1234",
-    // domain:"https://bookmane.in/collekt",
+    //  domain:"http://localhost:1234",
+    domain:"https://bookmane.in/collekt",
      
     
-    // socket : io.connect("https://bookmane.in"),
-    socket : io.connect("http://localhost:1234"),
+    socket : io.connect("https://bookmane.in"),
+    // socket : io.connect("http://localhost:1234"),
 
      //also change it in backened.js dialog.js eventPage.js
     //domain:"https://bookmane.in/collekt",

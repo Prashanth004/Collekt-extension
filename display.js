@@ -209,7 +209,7 @@ var display_content = function (domain, cardsold, cardOrList, listId) {
   
     if (flag == 1 && cardOrList == "card") {
         htmlText = '';
-        htmlText += '<div class="container" style="width:80%; margin:auto;">'
+        htmlText += '<div class="container">'
         htmlText += '<h1>Lets get started with finding people who can provide value. Start browsing through profiles to get started</h1>'
         htmlText += '</div>'
         $('.wrapper').append(htmlText)

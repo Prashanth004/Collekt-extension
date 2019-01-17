@@ -1,5 +1,5 @@
-// URLdomain = "https://bookmane.in/"
-URLdomain = "http://localhost:1234"
+URLdomain = "https://bookmane.in/"
+// URLdomain = "http://localhost:1234"
 
 
 
