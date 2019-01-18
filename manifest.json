@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Collekt",
-    "version": "1.0",
+    "version": "1.001",
     "description": "collect the contact detils",
     "icons": {
         "128": "icn128.png",
