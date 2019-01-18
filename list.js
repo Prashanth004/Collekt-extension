@@ -1,6 +1,7 @@
 var htmlElement = " ";
 var found = 0;
 var display_list = function (data) {
+    console.log("Displaed data")
     htmlElement = " ";
     $('#main').empty()
     $('.wrapper').empty()

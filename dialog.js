@@ -23,7 +23,11 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
 })
 
 
-
+config.socket.on('setPopWithHome', function(data){
+  
+    setPopToHome()
+    closeIFrame()
+})
 
 config.socket.on('closeiframe', function (data) {
     if(data.refresh==1){
@@ -65,25 +69,6 @@ function open_dialog() {
     }
 }
 
-var iframe2 = document.createElement('iframe');
-iframe2.id = "login"
-iframe2.style.background = "white";
-iframe2.style.width = "0px";
-iframe2.style.height = "50%";
-iframe2.style.marginToptop = "10px";
-iframe2.style.borderRadius = "8px";
-iframe2.frameBorderRadius = "8px";
-iframe2.style.position = "fixed";
-iframe2.style.top = "0px";
-iframe2.style.right = "0px";
-iframe2.style.zIndex = "9000000000000000000";
-iframe2.frameBorder = "none";
-iframe2.src = chrome.extension.getURL("Login.html")
-document.body.appendChild(iframe2);
-
-
-
-
 
 function open_login() {
    document.getElementById("normal").src=chrome.extension.getURL("Login.html")
@@ -95,6 +80,9 @@ function open_login() {
     else {
         iframe.style.width = "240px";
     }
+}
+function setPopToHome(){
+    document.getElementById("normal").src=chrome.extension.getURL("display.html")
 }
 function openServerProbem() {
    document.getElementById("normal").src=chrome.extension.getURL("serverDown.html")

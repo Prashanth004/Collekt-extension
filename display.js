@@ -224,7 +224,7 @@ var display_content = function (domain, cardsold, cardOrList, listId) {
 }
 
 
-var display_List_cards_content = function (domain, cardsold) {
+var     _cards_content = function (domain, cardsold) {
 }
 
 

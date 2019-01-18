@@ -98,6 +98,10 @@ $(function () {
     if (Number(automatic == 1)) {
         $("#cb1").attr("checked", true)
     }
+    else{
+        $('#autoText').text("Manual")
+
+    }
 
 
 
@@ -105,10 +109,11 @@ $(function () {
         var a = $('#cb1').is(":checked")
         setTimeout(function () {
             if (a) {
-
+                $('#autoText').text("Automatic")
                 localStorage.setItem("autoCollect", String(1))
             }
             else {
+                $('#autoText').text("Manual")
                 localStorage.setItem("autoCollect", String(0))
 
             }

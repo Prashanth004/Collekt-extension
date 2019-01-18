@@ -1,6 +1,8 @@
-var list = []
+var list = [];
+var ref_id = ""
 var yourArray = [];
-var cards = []
+var cards = [];
+var listCreationFromCard = false;
 function copyToClipboard(elementId) {
   var aux = document.createElement("input");
   aux.setAttribute("value", document.getElementById(elementId).innerHTML);
@@ -141,7 +143,10 @@ var add_card_to_list = function (card_id, list_id) {
 
       $.ajax(settings).done(function (response) {
         if (response.success == 1) {
-          alert("card added to the list")
+          if(!listCreationFromCard){
+            alert("card added to the list")
+          }
+         
           listTab() 
         }
       });
@@ -245,6 +250,7 @@ var listTab = function () {
   $('#search-list').css({
     "display": "block"
   })
+  get_all_lists()
   display_list(list)
 }
 
@@ -318,18 +324,13 @@ $(function () {
 
   })
   config.socket.on('deleteLst', function (data) {
-    $('#dltModal').css("display", "none")
-    
-      
-     location.reload();
-  
-    
-  
-
+    $('#dltLstConf').css({"display":"none"})
+    listTab()
   })
   config.socket.on('list_created', function (data) {
-
-    location.reload()
+  
+    listTab()
+   
   });
 
 
@@ -404,6 +405,50 @@ $(function () {
       listTab()
 
     })
+
+    $('#confirmEdit').click(function () {
+
+      why = $('#why').val();
+      console.log("why : ",why)
+
+      var settings = {
+        "async": false,
+        "crossDomain": true,
+        "url": config.domain + "/product/why/" + ref_id,
+        "method": "PUT",
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        "data": {
+          "why": why
+        }
+      }
+
+      $.ajax(settings).done(function (response) {
+       
+        if (response.success == 1) {
+          
+          $("#myModal_edit").css({ 'display': 'none' });
+          $("#myModal_edit_success").css({ 'display': 'block' });
+          $(".close").click(function () {
+            $("#myModal_edit").css({ 'display': 'none' });
+          })
+          setTimeout(function () {
+            $("#myModal_edit_success").css({ 'display': 'none' });
+          }, 2000);
+
+          $('#why_' + ref_id).text('Reason :  ' + why)
+
+        }
+
+
+      }).fail(function () {
+        alert("failed")
+      })
+
+
+    })
+
     $('#List').click(function () {
       listTab()
       $('#nav_button_filter').css({"display":"block"})
@@ -416,9 +461,8 @@ $(function () {
 
       display_content("linkedin", cards, "card", " ")
     })
-
-    $('#crt_list').click(function () {
-      list_name = $('#list_name').val()
+    $('#crt_list_cards').click(function () {
+      list_name = $('#list_name_cards').val()
 
       var settings222 = {
         "async": false,
@@ -434,10 +478,12 @@ $(function () {
       }
 
       $.ajax(settings222).done(function (response) {
-        console.log(response.success)
+        console.log("response.data._id: ", response.data._id)
 
-        if(response.success == 1){
-        $("#crt_Modal").css({ 'display': 'none' });
+       add_card_to_list( ref_id ,response.data._id)
+        if(response.sucess == 1){
+        $("#crt_Modal_cards").css({ 'display': 'none' });
+        $('#msg').text("List Created Successfully")
         $('#crt_Modal_confirm').css("display", "block")
         $(".close").click(function () {
           $("#crt_Modal_confirm").css({ 'display': 'none' });
@@ -463,7 +509,9 @@ $(function () {
         setTimeout(function () {
           $('#crt_Modal_confirm').css("display", "none")
 
-         location.reload()
+          config.socket.emit('list_created', {
+            data: response
+          });
 
         }, 1500);
 
@@ -471,11 +519,65 @@ $(function () {
       }
 
       })
-     
-      // location.reload()
+    })
+
+    $('#crt_list').click(function () {
+      list_name = $('#list_name').val()
+
+      var settings222 = {
+        "async": false,
+        "crossDomain": true,
+        "url": config.domain + "/list/create",
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        "data": {
+          "list_name": list_name,
+        }
+      }
+
+      $.ajax(settings222).done(function (response) {
+        console.log("response.success : ", response.sucess)
+
+        if(response.sucess == 1){
+        $("#crt_Modal").css({ 'display': 'none' });
+        $('#msg').text("List Created Successfully")
+        $('#crt_Modal_confirm').css("display", "block")
+        $(".close").click(function () {
+          $("#crt_Modal_confirm").css({ 'display': 'none' });
+        })
 
 
+        setTimeout(function () {
+          $('#crt_Modal_confirm').css("display", "none")
 
+          config.socket.emit('list_created', {
+            data: response
+          });
+
+        }, 1500);
+      }
+      else{
+        $("#crt_Modal").css({ 'display': 'none' });
+        $('#msg').text("List already Exits")
+        $('#crt_Modal_confirm').css("display", "block")
+        $(".close").click(function () {
+          $("#crt_Modal_confirm").css({ 'display': 'none' });
+        })
+        setTimeout(function () {
+          $('#crt_Modal_confirm').css("display", "none")
+
+          config.socket.emit('list_created', {
+            data: response
+          });
+
+        }, 1500);
+
+
+      }
+
+      })
     })
 
 
@@ -678,6 +780,7 @@ $(function () {
         get_lis_details(_id)
         
         $("#dltModal").css({ 'display': 'block' });
+        $("#alertdlt").empty()
         var html = " "
         html += '<p>List contains '+card_ids.length+' cards</p>' 
         html += '<p>You can not retrieve data once deleted.Are you sure you wanna delete this list?</p>'
@@ -722,13 +825,16 @@ $(function () {
             }
 
             $.ajax(settings).done(function (response) {
-              $(".modal-dlt-cont").empty();
-              htmlEl = "";
-              htmlEl += '<p>Delete successfull</p>'
-              $('.modal-dlt-cont').append(htmlEl)
-              config.socket.emit('deleteLst', {
-                ID: _id
-              })
+              
+              $("#dltModal").css({ 'display': 'none' });
+              $('#dltLstConf').css({"display":"block"})
+              setTimeout(function(){
+                config.socket.emit('deleteLst', {
+                  ID: _id
+                });
+
+              },1000)
+              
             });
           });
 
@@ -756,55 +862,19 @@ $(function () {
       if (kind_of_id == "editcard") {
 
         _id = id_name.split("_")[1]
-        // alert(_id)
+        ref_id = _id;
+     
         $("#myModal_edit").css({ 'display': 'block' });
         $(".close").click(function () {
           $("#myModal_edit").css({ 'display': 'none' });
         })
 
-        $('#confirm').click(function () {
 
-          why = $('#why').val();
-
-
-          var settings = {
-            "async": false,
-            "crossDomain": true,
-            "url": config.domain + "/product/why/" + _id,
-            "method": "PUT",
-            "headers": {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-            "data": {
-              "why": why
-            }
-          }
-
-          $.ajax(settings).done(function (response) {
-            if (response.success == 1) {
-              $("#myModal_edit").css({ 'display': 'none' });
-              $("#myModal_edit_success").css({ 'display': 'block' });
-              $(".close").click(function () {
-                $("#myModal_edit").css({ 'display': 'none' });
-              })
-              setTimeout(function () {
-                $("#myModal_edit_success").css({ 'display': 'none' });
-              }, 2000);
-
-              $('#why_' + _id).text('Reason :  ' + why)
-
-            }
-
-
-          }).fail(function () {
-            alert("failed")
-          })
-
-
-        })
 
       }
       if (id_name == "crt_lst_btn") {
+
+        listCreationFromCard = false;
         $("#crt_Modal").css({ 'display': 'block' });
         $(".close").click(function () {
           $("#crt_Modal").css({ 'display': 'none' });
@@ -954,9 +1024,11 @@ $(function () {
 
       var kind_of_id = id_name.split("_")[0]
       if (kind_of_id == "addnew") {
-        $("#crt_Modal").css({ 'display': 'block' });
+        listCreationFromCard = true
+        ref_id = id_name.split("_")[1]
+        $("#crt_Modal_cards").css({ 'display': 'block' });
         $(".close").click(function () {
-          $("#crt_Modal").css({ 'display': 'none' });
+          $("#crt_Modal_cards").css({ 'display': 'none' });
         })
 
       }
