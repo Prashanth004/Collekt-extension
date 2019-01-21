@@ -2,10 +2,12 @@ URLdomain = "https://bookmane.in/"
 // URLdomain = "http://localhost:1234"
 
 
+socket = io.connect("https://bookmane.in"),
 
 chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
     if (msg.action == "open_dialog_box") {
-        open_dialog();
+      
+                open_dialog();
     }
     if (msg.action == "refresh_dialog_box") {
         refresh();
@@ -23,13 +25,13 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
 })
 
 
-config.socket.on('setPopWithHome', function(data){
+socket.on('setPopWithHome', function(data){
   
     setPopToHome()
     closeIFrame()
 })
 
-config.socket.on('closeiframe', function (data) {
+socket.on('closeiframe', function (data) {
     if(data.refresh==1){
         refresh()
     }
@@ -59,7 +61,7 @@ iframe.frameBorder = "none";
 iframe.src = chrome.extension.getURL("display.html")
 document.body.appendChild(iframe);
 function open_dialog() {
-    
+  
 
     if (iframe.style.width == "0px") {
         iframe.style.width = "240px";

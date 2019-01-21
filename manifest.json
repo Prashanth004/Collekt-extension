@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Collekt",
-    "version": "1.001",
+    "version": "1.003",
     "description": "collect the contact detils",
     "icons": {
         "128": "icn128.png",
@@ -10,13 +10,14 @@
     },
     "browser_action": {
         "default_icon": "icn16.png",
-     
         "default_title": "Collekt"
     },
+  
     "background": {
         "scripts": [
             "socketio.js",
             "utils.js",
+            "background.js",
             "eventPage.js",
             "api_call.js",
             "test.js",
@@ -34,6 +35,7 @@
                 "https://angel.co/*"
             ],
             "js": [
+                
                 "jquery.js",
                 "socketio.js",
                 "utils.js",
@@ -44,7 +46,8 @@
                 "backened.js"
                
             ],
-            "run_at": "document_end",
+            "run_at": "document_idle",
+            "all_frames": true,
             "css": [
                 "content.css"
             ]
@@ -58,7 +61,7 @@
         "webNavigation",
         "tabs",
         "https://bookmane.in/collekt",
-        "https://bookmane.in",
+        "https://bookmane.in/",
         "https://embed.tawk.to/*",
         "https://www.facebook.com/*",
         "https://twitter.com/*",

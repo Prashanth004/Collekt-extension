@@ -1,5 +1,6 @@
 
 var tabIdHere = " "
+
 getStatus = function (name, url, domain, unq_name, tabId) {
 
 
@@ -41,6 +42,7 @@ getStatus = function (name, url, domain, unq_name, tabId) {
         chrome.tabs.sendMessage(tabId, { action: "showContent", User_name_new: name, Url: urlHere, domain: domain, unq_name: unq_name, isCollected: response.collected, sameDomain: response.sameDomain, diffDomain: response.diffDomain, befDomain: Domain, befUrl : old_url,autoCollection:autoCollection }, function (response) { });
         // autoCollection = localStorage.getItem("autoCollect")
         if (Number(autoCollection) != 0) {
+       
             chrome.tabs.sendMessage(tabId, { action: "open_dialog_box" }, function (response) { });
         }
     });

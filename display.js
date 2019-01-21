@@ -28,7 +28,7 @@ var elementGenerator = function(cards){
     htmlText += '<div class="no_button1" id="editcard_' + cards._id + '"><i class="glyphicon glyphicon-pencil"></i></div>';
     htmlText += '<div class="no_button2" id="delete_' + cards._id + '"><i class="glyphicon glyphicon-trash"></i></div>';
     htmlText += '<div class="why" >';
-    htmlText += '<p id="why_' + cards._id + '" >Reason :    ' + cards.why + '</p>';
+    htmlText += '<p class="why_text "id="why_' + cards._id + '" >Reason :    ' + cards.why + '</p>';
     htmlText += '</div>';
     htmlText += '<div class="line"> </div>';
     htmlText += '<div  class="name">';

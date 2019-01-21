@@ -1,40 +1,19 @@
 URLdomain= "https://bookmane.in/collekt"
 var socket = " "
 // URLdomain = "http://localhost:1234"
-chrome.runtime.onInstalled.addListener(function (object) {
-    chrome.tabs.create({ url: URLdomain }, function (tab) {
-    });
-    socket = io.connect("https://bookmane.in")
-
-});
-chrome.browserAction.onClicked.addListener(function(tab) { 
-    
-    config.server_down =1
-    test()
-    if(config.server_down !=0 ){
-        alert("cmdksmn")
-    chrome.tabs.sendMessage(tab.id, { action: "openServerProbem" }, function (response) { });
-    }
-    else if(config.isloggedin == 1 && config.active_status == 1){
-        chrome.tabs.sendMessage(tab.id, { action: "open_dialog_box" }, function (response) { });
-
-    }
-     else{
-       
-        chrome.tabs.sendMessage(tab.id, { action: "open_login" }, function (response) { });
-      
-    }
 
 
-});
 
-
+// chrome.runtime.onInstalled.addListener(function (object) {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     var is_angel = ' '
     if (request.todo == "showPageAction") {
+       
+       
         var new_tab_url = 1
         try {
             chrome.tabs.query({ active: true, currentWindow: true }, function (tabs1) {
+              
                 if (tabs1[0] == "undefined" || typeof (tabs1[0]) == undefined || tabs1[0] == undefined || typeof (tabs1[0]) == "undefined") {
                 }
                 else {
@@ -43,7 +22,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
                     if (is_angel == "angel") {
                         test()
-                        if (config.isloggedin == 1 && active_status == 1) {
+                        if (config.isloggedin == 1 && config.active_status == 1) {
                             chrome.tabs.executeScript(
                                 tabs1.id,
                                 { code: "document.querySelector('h1[class=\"u-fontSize25 u-fontSize24SmOnly u-fontWeight500\"]').innerHTML" },
@@ -70,8 +49,12 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                         if (flag == 1) {
                                             chrome.storage.sync.set({ 'User_name': User_name_new }, function () {
                                                 // api_call(User_name_new, _url, is_angel)  
+                                                chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+                                                    getStatus(User_name_new, _url, is_angel, unq_name, tabs1[0].id)
+                                                    // chrome.tabs.sendMessage(tabs[0].id, { action: "open_dialog_box", User_name_new: User_name_new, _url: _url, domain: domain }, function (response) { });
+                                                });
+                                                flag = 0;
                                              
-                                                getStatus(User_name_new, _url, is_angel, unq_name, tabs1[0].id)
                                                 // chrome.tabs.sendMessage(tabs1[0].id, { action: "open_dialog_box", User_name_new: User_name_new, _url: _url, domain: is_angel }, function (response) { });
                                             })
                                         }
@@ -95,6 +78,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             
 
             chrome.webNavigation.onHistoryStateUpdated.addListener(function (details) {
+               
                     if (((details.url.split(".")[1]) == "facebook" || ((details.url.split("/")[2].split(".")[1]) == "linkedin")) || (((details.url.split("/")[2].split(".")[0]) == "twitter"))) {
                         test()
                         if (config.isloggedin == 1 && config.active_status == 1) {
@@ -162,7 +146,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                                                                     if (User_name_new.match(expr)) {
                                                                                         User_name_new = User_name_new.split("<")[0]
                                                                                     }
-                                                                                  
+                                                                                
                                                                                     getStatus(User_name_new,_url,domain,unq_name,tabs2[0].id)
                                                                                     flag = 0;
                                                                                 })
