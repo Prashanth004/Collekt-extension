@@ -6,10 +6,7 @@ var config = {
      
     
     socket : io.connect("https://bookmane.in"),
-    // socket : io.connect("http://localhost:1234"),
-
-     //also change it in backened.js dialog.js eventPage.js
-    //domain:"https://bookmane.in/collekt",
+    
     feedbackLink :"https://docs.google.com/forms/d/e/1FAIpQLScuIzfUohj44R6JO6-YxdRTrTB0eDzWQRzPmv2ibgkU915LqQ/viewform?usp=sf_link",
     automatic:1,
     isloggedin:0,

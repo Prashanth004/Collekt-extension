@@ -11,8 +11,8 @@ $('#google').click(function () {
 })
 
 $('#close').click(function () {
-    chrome.runtime.sendMessage({ todo: "closeDisplay" });
-    config.socket.emit('closeiframe', {
+    socket = io.connect("https://bookmane.in"),
+    socket.emit('closeiframe', {
  close:1,
  refresh:0
   });

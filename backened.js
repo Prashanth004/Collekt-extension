@@ -12,7 +12,7 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
         showYesNo = 0
         showYesNo = msg.diffDomain
         showname = msg.sameDomain
-        serverCall.displayList()
+        displayList()
         $('#name').text(msg.User_name_new)
         msgnew = msg
 
@@ -76,6 +76,33 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
 })
 
 
+displayList = function () {
+    list = []
+    list=JSON.parse(localStorage.getItem("lists"))
+   
+       try{
+        if(list.length!=0){
+        config.listEmpty = 0
+        $('.list').css({ 'display': 'block' });
+        $('.listInside').empty()
+        htmlEmelent5 = ""
+        htmlEmelent5 += '<div style="width:50%; float:right; padding-right:15px; " class="select">'
+        htmlEmelent5 += '<select name="search_categories" id="search_categories">'
+        htmlEmelent5 += '<option value="0" >Select one</optioon>'
+        for (var items in list) {
+            htmlEmelent5 += '<option value="' + list[items]._id + '">' + list[items].List_name + '</option>'
+        }
+        htmlEmelent5 += '</select>'
+        htmlEmelent5 += '</div>'
+        $('.listInside').append(htmlEmelent5)
+    }
+}
+catch(e){
+console.log("error")
+}
+},
+
+
 
 $(function () {
     var listField = null
@@ -83,8 +110,9 @@ $(function () {
 
 
     $('#close').click(function () {
+        socket = io.connect("https://bookmane.in"),
         chrome.runtime.sendMessage({ todo: "closeDisplay" });
-        config.socket.emit('closeiframe', {
+        socket.emit('closeiframe', {
             close: 1,
             refresh: 0
         });
@@ -192,7 +220,8 @@ $(function () {
             }
         }
         $.ajax(settings).done(function (response) {
-            config.socket.emit('cardAdded', {
+            socket = io.connect("https://bookmane.in"),
+            socket.emit('cardAdded', {
                 refresh: 1
             });
             if (config.listEmpty == 0 && selctListValue != "0") {

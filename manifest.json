@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Collekt",
-    "version": "1.003",
+    "version": "1.005",
     "description": "collect the contact detils",
     "icons": {
         "128": "icn128.png",
@@ -16,12 +16,15 @@
     "background": {
         "scripts": [
             "socketio.js",
-            "utils.js",
+            "jquery.js",
+            "utils2.js",
+            "api.js",
             "background.js",
             "eventPage.js",
             "api_call.js",
             "test.js",
-            "jquery.js"
+            "options.js"
+          
         ],
         "persistant": false
     },
@@ -38,12 +41,13 @@
                 
                 "jquery.js",
                 "socketio.js",
-                "utils.js",
+                "utils2.js",
                 "test.js",
                 "content.js",
                 "dialog.js",
                 "login.js",
                 "backened.js"
+                
                
             ],
             "run_at": "document_idle",

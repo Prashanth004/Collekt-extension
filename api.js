@@ -1,37 +1,27 @@
 var isTrue = true
+var list = []
 serverCall = {
-    displayList: function () {
+
+
+    get_all_lists : function () {
         list = []
         var list_setting = {
-            "async": false,
-            "crossDomain": true,
-            "url": config.domain+"/list/",
-            "method": "GET",
-            "headers": {
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
+          "async": false,
+          "crossDomain": true,
+          "url": config.domain + "/list/",
+          "method": "GET",
+          "headers": {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
         }
         $.ajax(list_setting).done(function (response) {
-            for (var i in response) {
-                list.push(response[i])
-            }
-            if(list.length!=0){
-            config.listEmpty = 0
-            $('.list').css({ 'display': 'block' });
-            $('.listInside').empty()
-            htmlEmelent5 = ""
-            htmlEmelent5 += '<div style="width:50%; float:right; padding-right:15px; " class="select">'
-            htmlEmelent5 += '<select name="search_categories" id="search_categories">'
-            htmlEmelent5 += '<option value="0" >Select one</optioon>'
-            for (var items in list) {
-                htmlEmelent5 += '<option value="' + list[items]._id + '">' + list[items].List_name + '</option>'
-            }
-            htmlEmelent5 += '</select>'
-            htmlEmelent5 += '</div>'
-            $('.listInside').append(htmlEmelent5)
-        }
+          for (var i in response) {
+            list.push(response[i])
+          }
+          localStorage.setItem("lists",JSON.stringify(list))
         });
-    },
+      },
+
 
     getDate : function (date) {
 

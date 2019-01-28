@@ -12,6 +12,13 @@ function copyToClipboard(elementId) {
   document.body.removeChild(aux);
 }
 
+chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
+  if (msg.action == "refresh") {
+   location.reload()
+}
+})
+
+
 test()
 if (config.server_down == 1) {
   $("#sevre-modal").css({ 'display': 'block' });
@@ -250,27 +257,11 @@ var listTab = function () {
   $('#search-list').css({
     "display": "block"
   })
-  get_all_lists()
+  serverCall.get_all_lists()
   display_list(list)
 }
 
-var get_all_lists = function () {
-  list = []
-  var list_setting = {
-    "async": false,
-    "crossDomain": true,
-    "url": config.domain + "/list/",
-    "method": "GET",
-    "headers": {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-  }
-  $.ajax(list_setting).done(function (response) {
-    for (var i in response) {
-      list.push(response[i])
-    }
-  });
-}
+
 $(function () {
 
   $('#nav_button_filter').click(function () {

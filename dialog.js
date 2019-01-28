@@ -2,7 +2,7 @@ URLdomain = "https://bookmane.in/"
 // URLdomain = "http://localhost:1234"
 
 
-socket = io.connect("https://bookmane.in"),
+socket = io.connect("https://bookmane.in")
 
 chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
     if (msg.action == "open_dialog_box") {
@@ -13,6 +13,7 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
         refresh();
     }
     if(msg.action == "open_login"){
+    
         open_login();
 
     }
@@ -44,9 +45,8 @@ socket.on('closeiframe', function (data) {
 
 
 
-
 var iframe = document.createElement('iframe');
-iframe.id = "normal"
+iframe.id = "normalIframe"
 iframe.style.background = "white";
 iframe.style.width = "0px";
 iframe.style.height = "50%";
@@ -59,7 +59,11 @@ iframe.style.right = "0px";
 iframe.style.zIndex = "9000000000000000000";
 iframe.frameBorder = "none";
 iframe.src = chrome.extension.getURL("display.html")
-document.body.appendChild(iframe);
+top.document.body.appendChild(iframe);
+
+
+
+
 function open_dialog() {
   
 
@@ -73,7 +77,8 @@ function open_dialog() {
 
 
 function open_login() {
-   document.getElementById("normal").src=chrome.extension.getURL("Login.html")
+
+   document.getElementById("normalIframe").src=chrome.extension.getURL("Login.html")
 
 
     if (iframe.style.width == "0px") {
@@ -84,10 +89,10 @@ function open_login() {
     }
 }
 function setPopToHome(){
-    document.getElementById("normal").src=chrome.extension.getURL("display.html")
+    document.getElementById("normalIframe").src=chrome.extension.getURL("display.html")
 }
 function openServerProbem() {
-   document.getElementById("normal").src=chrome.extension.getURL("serverDown.html")
+   document.getElementById("normalIframe").src=chrome.extension.getURL("serverDown.html")
    
 
     if (iframe.style.width == "0px") {
