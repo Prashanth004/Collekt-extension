@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Collekt",
-    "version": "1.005",
+    "version": "1.006",
     "description": "collect the contact detils",
     "icons": {
         "128": "icn128.png",
@@ -21,6 +21,7 @@
             "api.js",
             "background.js",
             "eventPage.js",
+            
             "api_call.js",
             "test.js",
             "options.js"

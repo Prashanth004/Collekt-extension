@@ -1,3 +1,5 @@
+URLdomain = "https://bookmane.in/collekt"
+
 chrome.runtime.onInstalled.addListener(function (object) {
     localStorage.setItem("autoCollect", String(1))
     chrome.tabs.create({ url: URLdomain }, function (tab) {
@@ -88,7 +90,7 @@ chrome.runtime.onInstalled.addListener(function (object) {
 
 });
 
-chrome.browserAction.onClicked.addListener(function(tab) { 
+chrome.browserAction.onClicked.addListener(function(tab)    { 
    
     config.server_down =1
     test()
@@ -106,7 +108,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
     }
      else{
-        chrome.tabs.sendMessage(tab.id, { action: "open_dialog_box" }, function (response) { });
+        chrome.tabs.sendMessage(tab.id, { action: "open_dialog_box" },  function (response) { });
 
        
       

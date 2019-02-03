@@ -2,12 +2,13 @@ URLdomain= "https://bookmane.in/collekt"
 var socket = " "
 // URLdomain = "http://localhost:1234"
 
-
+var exceuted = 0
 
 // chrome.runtime.onInstalled.addListener(function (object) {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     var is_angel = ' '
     if (request.todo == "showPageAction") {
+    
        
        
         var new_tab_url = 1
@@ -38,7 +39,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                         User_name_new = User_name_new.split("<")[0]
                                         url_string = _url.split("/")
                                         unq_name=url_string[3]
-                                        // alert(unq_name)
                                     }
                                     chrome.storage.sync.get(['User_name'], function (User_name_old) {
 
@@ -48,17 +48,18 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                         else {
                                             flag = 0
                                         }
+                                        if (flag == 1) {
+                                            chrome.storage.sync.set({ 'User_name': User_name_new }, function () {
+                                            })
+                                            chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+                                                getStatus(User_name_new, _url, is_angel, unq_name, tabs1[0].id)
+                                            });
+                                            flag = 0;
+                                        }
 
                                       
                                     })
-                                    if (flag == 1) {
-                                        chrome.storage.sync.set({ 'User_name': User_name_new }, function () {
-                                        })
-                                        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-                                            getStatus(User_name_new, _url, is_angel, unq_name, tabs1[0].id)
-                                        });
-                                        flag = 0;
-                                    }
+                                   
 
                                 }
                             )
@@ -81,37 +82,40 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             
 
             chrome.webNavigation.onHistoryStateUpdated.addListener(function (details) {
-               
+            
+               exceuted = 0
                     if (((details.url.split(".")[1]) == "facebook" || ((details.url.split("/")[2].split(".")[1]) == "linkedin")) || (((details.url.split("/")[2].split(".")[0]) == "twitter"))) {
                       
                         if (config.isloggedin == 1 && config.active_status == 1) {
                             if (details.frameId === 0) {
+                              
                                 chrome.tabs.get(details.tabId, function (tab) {
                                     if (tab == "undefined" || typeof (tab) == undefined || tab == undefined || typeof (tab) == "undefined") {
 
                                     }
                                     else {
-                                        // if (tab.url === details.url) {
+                                        if (tab.url === details.url) {
                                             chrome.tabs.query({ 'active': true, 'currentWindow': true }, function (tabs2) {
                                                
                                                     if (tab == "undefined" || typeof (tab) == undefined || tab == undefined || typeof (tab) == "undefined") {
 
                                                     }
-                                                    else {
+                                                       
+                                                    else if(exceuted ===0){
+                                                        exceuted = 1;
+                                                      
                                                         var _url = tabs2[0].url;
                                                         var str1 = _url.split(".");
                                                         var domain = str1[1];
                                                         if (domain == "facebook") {
                                                             flag = 0;
                                                           
-                                                            // alert(unq_name)
                                                             var User_name_new= null
                                                             setTimeout(function(){
                                                                 try{
                                                             chrome.tabs.executeScript(                                                                tab.id,
                                                                 { code: "document.querySelector('a[class=\"_2nlw _2nlv\"]').innerHTML" },
                                                                 function (results, err) {
-                                                                    // alert(result)
                                                                     let e = chrome.runtime.lastError;
                                                                     if (e !== undefined) {
                                                                     }
@@ -130,7 +134,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                                                             url_string = unq_name.split("?")
                                                                             unq_name = url_string[0]
                                                                         }
-                                                                        // alert(User_name_new +" : "+unq_name)
                                                                         chrome.storage.sync.get(['User_name','unqname'], function (UserDatataOld) {
                                                                             if (UserDatataOld.User_name != User_name_new && User_name_new != null) {
                                                                                     flag = 1
@@ -141,23 +144,21 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                                                             else {
                                                                                 flag = 0
                                                                             }
+                                                                            if (flag == 1) {
+                                                                                
+                                                                                chrome.storage.sync.set({ 'User_name': User_name_new, "unqname":unq_name }, function () {
+                                                                                  })
+                                                                                expr = /</;
+                                                                                if (User_name_new.match(expr)) {
+                                                                                    User_name_new = User_name_new.split("<")[0]
+                                                                                }
+                                                                                getStatus(User_name_new,_url,domain,unq_name,tabs2[0].id)
+                                                                                flag = 0;
+                                                                            }
     
                                                                         
                                                                         })
-                                                                        if (flag == 1) {
-                                                                                
-                                                                            chrome.storage.sync.set({ 'User_name': User_name_new, "unqname":unq_name }, function () {
-                                                                              
-                                                                            
-                                                                               
-                                                                            })
-                                                                            expr = /</;
-                                                                            if (User_name_new.match(expr)) {
-                                                                                User_name_new = User_name_new.split("<")[0]
-                                                                            }
-                                                                            getStatus(User_name_new,_url,domain,unq_name,tabs2[0].id)
-                                                                            flag = 0;
-                                                                        }
+                                                                        
 
                                                                     }
                                                                     else{
@@ -173,16 +174,13 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                                             )
                                                         }
                                                         catch(e){
-                                                            console.log("error", e)
                                                         }
                                                         },1000);
                                                         }
                                                         else if (_url.split("/")[2].split(".")[0] == "twitter") {
                                                             flag = 0
                                                             domain = _url.split("/")[2].split(".")[0]
-                                                            // url_string =
                                                             unq_name= _url.split("/")[3]
-                                                            // alert(unq_name)
                                                             
                                                             chrome.tabs.executeScript(
                                                                 tabs2.id,
@@ -212,6 +210,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                                                              
                                                                             })
                                                                             chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+                                                                                console.log("Final stage")
                                                                                 getStatus(User_name_new,_url,domain,unq_name,tabs[0].id)
                                                                                 // chrome.tabs.sendMessage(tabs[0].id, { action: "open_dialog_box", User_name_new: User_name_new, _url: _url, domain: domain }, function (response) { });
                                                                             });
@@ -244,7 +243,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                                                         var User_name_new = (results[0]);
                                                                         url_string = _url.split("/")
                                                                         unq_name=url_string[4]
-                                                                        // alert(unq_name)
                                                                     }
 
                                                                     chrome.storage.sync.get(['User_name'], function (User_name_old) {
@@ -254,21 +252,21 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                                                         else {
                                                                             flag = 0
                                                                         }
-                                                                       
+                                                                        if (flag == 1) {
+                                                                            chrome.storage.sync.set({ 'User_name': User_name_new }, function () {
+                                                                                
+                                                                            })
+                                                                            chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+                                                                                console.log("final stage")
+                                                                                getStatus(User_name_new,_url,domain,unq_name,tabs[0].id)
+                                                                                // chrome.tabs.sendMessage(tabs[0].id, { action: "open_dialog_box", User_name_new: User_name_new, _url: _url, domain: domain }, function (response) { });
+                                                                            });
+                                                                            flag = 0;
+                                                                        }
 
                                                                         
                                                                     })
-                                                                    if (flag == 1) {
-                                                                        chrome.storage.sync.set({ 'User_name': User_name_new }, function () {
-                                                                            
-                                                                        })
-                                                                        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-                                                                            getStatus(User_name_new,_url,domain,unq_name,tabs[0].id)
-                                                                           console.log("sent.....")
-                                                                            // chrome.tabs.sendMessage(tabs[0].id, { action: "open_dialog_box", User_name_new: User_name_new, _url: _url, domain: domain }, function (response) { });
-                                                                        });
-                                                                        flag = 0;
-                                                                    }
+                                                               
                                                                    
 
                                                                 }
@@ -284,7 +282,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
                                               
                                             });
-                                        // }
+                                        }
                                     }
                                 });
                             }

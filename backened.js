@@ -1,8 +1,8 @@
 msgnew = null;
 name = " ";
 list = [];
-// URLdomain = "https://bookmane.in/collekt"
-URLdomain = "http://localhost:1234"
+URLdomain = "https://bookmane.in/collekt"
+// URLdomain = "http://localhost:1234"
 
 
 chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
@@ -22,14 +22,16 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
 
 
         if (msg.isCollected == 1) {
+         
             $('.welcome').css({ 'display': 'none' });
             $('.msgSmall').css({ 'display': 'block' });
             $('.reason').css({ 'display': 'none' });
             $('.list').css({ 'display': 'none' });
-            $('#submit').css({ 'display': 'none' }); 0
+            $('#submit').css({ 'display': 'none' }); 
             chrome.runtime.sendMessage({ todo: "closeDisplay" });
         }
         else {
+         
             if (showname == 1) {
                 $('.warning2').css({ 'display': 'none' });
                 $('.msgSmall').css({ 'display': 'none' });
@@ -60,6 +62,7 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
 
             }
             else {
+                
                 $('.warning2').css({ 'display': 'none' });
                 $('.msgSmall').css({ 'display': 'none' });
                 $('.yesno').css({ 'display': 'none' });
@@ -110,9 +113,9 @@ $(function () {
 
 
     $('#close').click(function () {
-        socket = io.connect("https://bookmane.in"),
+       
         chrome.runtime.sendMessage({ todo: "closeDisplay" });
-        socket.emit('closeiframe', {
+        config.socket.emit('closeiframe', {
             close: 1,
             refresh: 0
         });
@@ -120,9 +123,7 @@ $(function () {
 
 
     automatic = localStorage.getItem("autoCollect")
-    // automatic =  msg.autoCollection;
-
-
+   
     if (Number(automatic == 1)) {
         $("#cb1").attr("checked", true)
     }
@@ -220,10 +221,17 @@ $(function () {
             }
         }
         $.ajax(settings).done(function (response) {
-            socket = io.connect("https://bookmane.in"),
-            socket.emit('cardAdded', {
+            $('.welcome').css({ 'display': 'none' });
+            $('.msgSmall').css({ 'display': 'block' });
+            $('.reason').css({ 'display': 'none' });
+            $('.list').css({ 'display': 'none' });
+            $('#submit').css({ 'display': 'none' }); 
+            console.log("changed")
+            config.socket.emit('cardAdded', {
                 refresh: 1
             });
+          
+         
             if (config.listEmpty == 0 && selctListValue != "0") {
 
                 serverCall.add_card_to_list_popup(response.data._id, listField)
@@ -231,10 +239,12 @@ $(function () {
             }
 
 
-        }).catch(err =>
-            console.log("err : ", err))
-
+        }).catch(err =>{
+            console.log("errrrrrrrrrrrrrrrrrr ", err);
+     
+        })
         chrome.runtime.sendMessage({ todo: "closeDisplay" });
+       
     })
     $('#yes').click(function () {
         chrome.runtime.sendMessage({ todo: "closeDisplay" });
