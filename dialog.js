@@ -5,6 +5,7 @@ URLdomain = "https://bookmane.in/"
 socket = io.connect("https://bookmane.in")
 
 chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
+
     if (msg.action == "open_dialog_box") {
       
                 open_dialog();
@@ -33,12 +34,13 @@ socket.on('setPopWithHome', function(data){
 })
 
 socket.on('closeiframe', function (data) {
-    if(data.refresh==1){
-        refresh()
-    }
+    
     
     if(data.close==1){
         closeIFrame()
+    } 
+    if(data.refresh==1){
+        refresh()
     }
     
 })

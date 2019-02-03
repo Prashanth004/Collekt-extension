@@ -102,18 +102,10 @@ chrome.browserAction.onClicked.addListener(function(tab)    {
     chrome.tabs.sendMessage(tab.id, { action: "openServerProbem" }, function (response) { });
     }
     else if(config.isloggedin == 0 || config.active_status == 0){
-       
+    
         chrome.tabs.sendMessage(tab.id, { action: "open_login" }, function (response) { });
-
-
     }
      else{
         chrome.tabs.sendMessage(tab.id, { action: "open_dialog_box" },  function (response) { });
-
-       
-      
     }
-
-
-
 });

@@ -6,6 +6,7 @@ URLdomain = "https://bookmane.in/collekt"
 
 
 chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
+   
     if (msg.action == "showContent") {
 
         showname = 0
@@ -15,10 +16,6 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
         displayList()
         $('#name').text(msg.User_name_new)
         msgnew = msg
-
-        $('#close').click(function () {
-            chrome.runtime.sendMessage({ todo: "closeDisplay" });
-        })
 
 
         if (msg.isCollected == 1) {
@@ -113,12 +110,11 @@ $(function () {
 
 
     $('#close').click(function () {
-       
-        chrome.runtime.sendMessage({ todo: "closeDisplay" });
         config.socket.emit('closeiframe', {
             close: 1,
             refresh: 0
         });
+        chrome.runtime.sendMessage({ todo: "closeDisplay" });
     })
 
 
@@ -155,10 +151,7 @@ $(function () {
     $('#help').click(function () {
         chrome.tabs.create({ url: "help.html" });
     })
-    $('#close').click(function () {
-        chrome.runtime.sendMessage({ todo: "closeDisplay" });
-        chrome.runtime.sendMessage({ action: "closeDisplay" });
-    })
+  
     if (!navigator.onLine) {
         $('#showCards').css({ 'display': 'none' });
         $('#name').text("Offline");
@@ -179,7 +172,6 @@ $(function () {
         else {
             listField = selctListValue
         }
-        chrome.runtime.sendMessage({ todo: "closeDisplay" });
         if (msgnew.sameDomain == 1) {
             var name = $('#nameEnter').val()
         }
@@ -222,28 +214,34 @@ $(function () {
         }
         $.ajax(settings).done(function (response) {
             $('.welcome').css({ 'display': 'none' });
-            $('.msgSmall').css({ 'display': 'block' });
+            $('#succesSave').css({ 'display': 'block' });
             $('.reason').css({ 'display': 'none' });
             $('.list').css({ 'display': 'none' });
             $('#submit').css({ 'display': 'none' }); 
-            console.log("changed")
-            config.socket.emit('cardAdded', {
+            $('#autoToggole').css({'display' : 'none'})
+         config.socket.emit('cardAdded', {
                 refresh: 1
             });
-          
-         
             if (config.listEmpty == 0 && selctListValue != "0") {
-
                 serverCall.add_card_to_list_popup(response.data._id, listField)
-
             }
+
+            setTimeout(function(){
+                config.socket.emit('closeiframe', {
+                    close: 1,
+                    refresh: 0
+                });
+                chrome.runtime.sendMessage({ todo: "closeDisplay" });
+            },2000);
+
 
 
         }).catch(err =>{
-            console.log("errrrrrrrrrrrrrrrrrr ", err);
+            setTimeout(function(){
+                chrome.runtime.sendMessage({ todo: "closeDisplay" });
+            },2000);
      
         })
-        chrome.runtime.sendMessage({ todo: "closeDisplay" });
        
     })
     $('#yes').click(function () {

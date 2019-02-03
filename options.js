@@ -832,6 +832,13 @@ $(function () {
         })
 
       }
+      if (kind_of_id == "button" || kind_of_id == "name" )  {
+        $('.wrapper').css({'margin-top':'60px'});
+        $('#search-list').css({'display':'none'});
+        $('#search-card').css({'display':'none'})
+        $('#nav_button_filter').css({'display':'none'})
+        showCardsInList(_id)
+      }
       if (kind_of_id == "options") {
 
         _id = id_name.split("_")[1]
@@ -841,13 +848,7 @@ $(function () {
           $('#dropdown_options' + _id).fadeOut('slow');
         });
       }
-      if (kind_of_id == "button") {
-        $('.wrapper').css({'margin-top':'60px'});
-        $('#search-list').css({'display':'none'});
-        $('#search-card').css({'display':'none'})
-        $('#nav_button_filter').css({'display':'none'})
-        showCardsInList(_id)
-      }
+    
 
 
       if (kind_of_id == "editcard") {

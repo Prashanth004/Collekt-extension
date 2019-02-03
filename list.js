@@ -77,15 +77,18 @@ var display_search_list = function( search_text,data ){
 var ElementFeed = function(response){
     
     htmlElement += '<div class="card" style="width: 18rem;">';
-    htmlElement += '<div class="List_div id="List_' + response._id + '">';
-    htmlElement += '<div class="div_name">';
+    htmlElement += '<div class="List_div" id="List_' + response._id + '">';
+    htmlElement += '<div class="div_name" id="name_'+response._id+'">';
     htmlElement += '<p style="color:black;">' + response.List_name + '</p>';
     htmlElement += '<p>'+response.Cards_id.length+' cards</p>'
     htmlElement += '</div>';
     htmlElement += '<div class="div_button">';
     // <i class="glyphicon glyphicon-open"></i>
     htmlElement += '<div class="drop_list"id="button_' + response._id + '"><i class="glyphicon glyphicon-open"></i></div>';
-    htmlElement += '<div class="option" id="options_' + response._id + '"><i class="glyphicon glyphicon-option-vertical"></i></div>';
+    // htmlElement += '<div class="option" id="button_' + response._id + '">show</div>';
+
+    htmlElement += '<div class="option" id="options_' + response._id + '"><i class="glyphicon glyphicon-option-vertical" id="options_' + response._id + '" ></i></div>';
+
     htmlElement += '<div class="dropdown-content3" padding="12px" id="dropdown_options' + response._id + '" aria-labelledby="dropdownMenuButton">';
     htmlElement += '<div class="no_button" id="share_' + response._id + '">Share<i class="glyphicon glyphicon-share"></i></div>';
     htmlElement += '<div class="no_button" id="deletlst_' + response._id + '">Delete<i class="glyphicon glyphicon-trash"></i></div>';
