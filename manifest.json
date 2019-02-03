@@ -15,6 +15,7 @@
     },
     "background": {
         "scripts": [
+            "socketio.js",
             "utils.js",
             "eventPage.js",
             "api_call.js",
@@ -23,12 +24,10 @@
         ],
         "persistant": false
     },
-    "web_accessible_resources": ["display.html"],
+    "web_accessible_resources": ["display.html","Login.html","serverDown.html"],
     "content_scripts": [
         {
             "matches": [
-                "https://*/*",
-                "http://*/*",
                 "https://www.facebook.com/*",
                 "https://twitter.com/*",
                 "https://www.linkedin.com/*",
@@ -37,8 +36,11 @@
             "js": [
                 "jquery.js",
                 "socketio.js",
+                "utils.js",
+                "test.js",
                 "content.js",
                 "dialog.js",
+                "login.js",
                 "backened.js"
                
             ],

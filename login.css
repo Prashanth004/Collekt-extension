@@ -1,0 +1,50 @@
+.loginBtn{
+   display:block;
+    width:100%;
+    border-style:none;
+    border-radius:4px;
+    border-width:0.5px;
+    border-color:black;
+    background-color:rgb(204, 48, 48);
+    height:30px;
+    color:white;
+    margin-bottom: 0px;
+    margin-top:20px;
+  }
+
+  .moto{
+    border-style: none;
+    width:100%; 
+    align-items: center;
+    text-align: center;
+    font-size: 13px;
+    font-style: normal;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color:white;
+}
+
+  
+#close{
+    display:"block";
+    width:100%;
+    border-style:none;
+    border-radius:2px;
+    border-width:0.5px;
+    border-color:black;
+    background-color:white;
+    height:25px;
+    color:black;
+    position: fixed;
+    bottom:5px;
+    left:5px;
+    width:200px;
+}
+
+.logo{
+   
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    margin:auto;
+ 
+}

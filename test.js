@@ -10,6 +10,10 @@ var test = function () {
     "method": "GET",
     "headers": {
       "Content-Type": "application/x-www-form-urlencoded",
+     "Access-Control-Allow-Origin" : true
+
+
+     
     },
 
   }

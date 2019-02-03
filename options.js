@@ -1,4 +1,5 @@
-var socket = " "
+var list=[]
+var yourArray = [];
 var cards = []
 function copyToClipboard(elementId) {
   var aux = document.createElement("input");
@@ -18,15 +19,40 @@ if ( config.server_down == 1) {
 }
 
 
-var crtList = function () {
-  $('#main').empty()
-  $('.wrapper').empty()
-  var htmlCr = '';
-  htmlCr += '<div id="crt_lst_btn" >';
-  htmlCr += '<buton id="crtLst">Create List</button>';
-  htmlCr += '</div>';
 
-  $('#main').append(htmlCr)
+var deleteCardsFrmList = function(list_id, cardArray){
+
+  console.log("type of cardArray :",typeof(cardArray))
+
+  console.log("cardArray :",cardArray)
+  cardArray = JSON.stringify(cardArray)
+  console.log("type of cardArray :",typeof(cardArray))
+
+  console.log("cardArray :",cardArray)
+  var settings11 = {
+      "async": true,
+      "crossDomain": true,
+      "url":  config.domain+"/list/rm/"+list_id,
+      "method": "PUT",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      "data": {
+        "cardsId":cardArray
+      }
+    }
+    
+    $.ajax(settings11).done(function (response) {
+        if(response.status==200){
+        alert("delete")
+        }
+      console.log(response);
+    });
+}
+
+
+var crtList = function (type) {
+
 
   var list_setting = {
     "async": false,
@@ -38,53 +64,10 @@ var crtList = function () {
     },
   }
   $.ajax(list_setting).done(function (response) {
-    var htmlElement = " "
-    var flag =1
-    for (var i in response) {
-      flag = 0
-      htmlElement += '<div class="card" style="width: 18rem;">';
-      htmlElement += '<div class="List_div id="List_' + response[i]._id + '">';
-      htmlElement += '<div class="div_name">';
-      htmlElement += '<p>' + response[i].List_name + '</p>';
-      htmlElement += '</div>';
-      htmlElement += '<div class="div_button">';
-      htmlElement += '<div class="drop_list"id="button_' + response[i]._id + '"><span class="caret"></span></div>';
-      htmlElement += '<div class="option" id="options_' + response[i]._id + '"><i class="glyphicon glyphicon-option-vertical"></i></div>';
-      htmlElement += '<div class="dropdown-content3" padding="12px" id="dropdown_options' + response[i]._id + '" aria-labelledby="dropdownMenuButton">';
-      htmlElement += '<div class="no_button" id="share_' + response[i]._id + '">Share<i class="glyphicon glyphicon-share"></i></div>';
-      htmlElement += '<div class="no_button" id="deletlst_' + response[i]._id + '">Delete<i class="glyphicon glyphicon-trash"></i></div>';
-      htmlElement += '</div>';
-      htmlElement += '</div>';
-      htmlElement += '</div>';
-      htmlElement += '<div class="collapse" id="colapseli_' + response[i]._id + '">';
-      htmlElement += '<div class="div_colapse_back">';
-      if ((response[i].Cards_id).length == 0) {
-        htmlElement += '<p>No cards present. Add cards to to lists in the cards section.</p>'
-      } else {
-        for (var j in response[i].Cards_id) {
-          htmlElement += '<div class="div_colapse">';
-          htmlElement += '<div class="div_name">';
-          htmlElement += '<p id="nmp_' + response[i]._id + '_' + response[i].Cards_id[j] + '"></p>';
-          htmlElement += '</div>';
-          htmlElement += '<a id="a_' + response[i]._id + '_' + response[i].Cards_id[j] + '" href="" target="_blank">';
-          htmlElement += '<img id="img_' + response[i]._id + '_' + response[i].Cards_id[j] + '";align=centre;height=25px; width=25px;  src="" />';
-          htmlElement += '</a>';
-          htmlElement += '</div>';
-        }
-      }
-      htmlElement += '</div>';
-      htmlElement += '</div>';
-      htmlElement += '</div>';
-    }
+for(items in response){
 
-    $('.wrapper').append(htmlElement);
-    if (flag == 1) {
-      htmlText = '';
-      htmlText += '<div class="container">'
-      htmlText += '<h1>Created your own customized list. Add Card to the list. Access and share the list anytime!!</h1>'
-      htmlText += '</div>'
-      $('.wrapper').append(htmlText)
-  }
+  list.push(response[items])
+}
   })
 }
 k = "918027681781"
@@ -169,6 +152,7 @@ var profile_name = " "
 var lists = []
 
 var get_card_id = function (id) {
+  
   var settings = {
     "async": false,
     "crossDomain": true,
@@ -238,6 +222,23 @@ var get_all_lists = function () {
 }
 $(function () {
 
+  $('#nav_button_filter').click(function(){
+    $('#navFilterDropdown').slideDown('fast', function () {
+    })
+    $('#navFilterDropdown').mouseleave(function () {
+      $('#navFilterDropdown').slideUp('fast');
+    });
+  })
+  $('#opt').click(function(){
+    $('#navOptionDropdown').slideDown('fast', function () {
+
+    })
+    $('#navOptionDropdown').mouseleave(function () {
+      $('#navOptionDropdown').slideUp('slow');
+    });
+  });
+
+
 $('#export').click(function(){
   var settings = {
     "async": true,
@@ -253,40 +254,37 @@ $('#export').click(function(){
   $.ajax(settings).done(function (response) {
   });
 })
-  var socket = io.connect("https://bookmane.in/");
+  
 
-  socket.on('logout', function (data) {
+config.socket.on('logout', function (data) {
    
     window.close();
   });
  
 
-  socket.on('cardAdded', function (data) {
+  config.socket.on('cardAdded', function (data) {
     location.reload()
   });
-  
-  socket.on('delete', function (data) {
+  config.socket.on('delete', function (data) {
     $('#div_' + data).remove()
     setTimeout(function () {
       location.reload()
     }, 1000)
 
   })
-  socket.on('deleteLst', function (data) {
+  config.socket.on('deleteLst', function (data) {
     $('#myModal').css("display", "none")
     $('#List_' + data).remove()
-    crtList()
+    location.reload()
     setTimeout(function () {
 
       location.reload()
     }, 1000)
 
   })
+  config.socket.on('list_created', function (data) {
 
-  socket.on('list_created', function (data) {
-
-    crtList()
-
+    location.reload()
   });
 
 
@@ -325,6 +323,11 @@ $('#export').click(function(){
 
     })
 
+    $('#list-search').on('input', function () {
+      console.log(list)
+      display_search_list($('#list-search').val(),list)
+    })
+
 
     $('#card-search').on('input', function () {
       display_searched($('#card-search').val(), cards)
@@ -340,9 +343,15 @@ $('#export').click(function(){
       location.reload();
     })
     $('#List').click(function () {
-
-      crtList()
+      $('#search-card').css({
+        "display":"block"
+       })
+      $('#search-list').css({
+        "display":"block"
+       })
+      display_list(list)
     })
+ 
     $('#twitter').click(function () {
       display_content("twitter", cards)
     })
@@ -378,9 +387,7 @@ $('#export').click(function(){
         setTimeout(function () {
           $('#crt_Modal_confirm').css("display", "none")
 
-          socket.emit('list_created', {
-
-
+          config.socket.emit('list_created', {
             data: response
           });
 
@@ -406,10 +413,28 @@ $('#export').click(function(){
     $(document).delegate('div', 'click', function (button) {
       var id_name = button.currentTarget.id
 
-
-
-
       var kind_of_id = id_name.split("_")[0]
+      _id = id_name.split("_")[1];
+
+      if (kind_of_id == "openList") {
+        get_card_id(_id)
+        $('#search-card').css({
+          "display":"block"
+         })
+        $('#search-list').css({
+          "display":"block"
+         })
+      //  $('#list-search').text(profile_name);
+       $('#list-search').val(profile_name) ;
+
+       display_search_list(profile_name,list)
+    
+      }
+      
+
+
+
+
       if (kind_of_id == "public") {
         _id = id_name.split("_")[1];
         setTimeout(function () {
@@ -440,6 +465,61 @@ $('#export').click(function(){
 
           });
         }, 1000);
+
+
+
+      }
+
+
+      if(kind_of_id == "editlst"){
+
+        $("#editList").css({ 'display': 'block' });
+        $(".close").click(function () {
+          $("#editList").css({ 'display': 'none' });
+        })
+
+
+     
+
+        var list_setting112 = {
+          "async": true,
+          "crossDomain": true,
+          "url": config.domain+"/list/" + _id,
+          "method": "GET",
+          "headers": {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+        $.ajax(list_setting112).done(function (response) {
+          $('#lstName').text(response[0].List_name)
+          $('#checkBoxes').empty()
+          htmlElement = " "
+          for (var j in response[0].Cards_id) {
+            get_card_id(response[0].Cards_id[j])
+            htmlElement += '<div class="check">'
+            htmlElement += ' <input type="checkbox" name="CardsInList" value="'+response[0].Cards_id[j]+'">  '+profile_name+''
+            htmlElement += '<img style="float:right" height=20px; width=20px;" src="'+profile_domain +'.jpg">'
+            htmlElement += ' </div>'
+          }
+          $('#checkBoxes').append(htmlElement)
+        })
+       
+        $('#dltCardsFrmLst').click(function(){
+          cardArray = []
+        
+          $("input:checkbox[name=CardsInList]:checked").each(function(){
+           
+            cardArray.push($(this).val());
+        });
+        
+        serverCall.deleteCardsFrmList(_id,cardArray)
+        
+      
+
+        })
+       
+
+
 
 
 
@@ -548,7 +628,7 @@ $('#export').click(function(){
 
               htmlEl += '<p>Delete successfull</p>'
               $('.modal-content').append(htmlEl)
-              socket.emit('deleteLst', {
+              config.socket.emit('deleteLst', {
                 ID: _id
               })
             });
@@ -570,7 +650,7 @@ $('#export').click(function(){
 
 
         _id = id_name.split("_")[1]
-        $('#colapseli_' + _id).toggle('fast', function () {
+        $('#colapseli_' + _id).toggle('slow', function () {
         })
 
         var list_setting111 = {
@@ -758,7 +838,7 @@ $('#export').click(function(){
           $('.modal-content').append(htmlEl)
           setTimeout(function () {
             $("#myModal").css({ 'display': 'none' });
-            socket.emit('delete', {
+            config.socket.emit('delete', {
               ID: _id
             })
             // $('#div_'+_id).remove()
@@ -849,13 +929,7 @@ $('#export').click(function(){
 
     $('#logout').click(function () {
 
-      socket.emit('logout', {
-        logout: 1
-      });
-      socket.emit('closeiframe', {
-        close:1,
-        refresh:1
-         });
+    
 
 
       var settings1 = {
@@ -874,15 +948,16 @@ $('#export').click(function(){
 
       }).then(function () {
         var htmlText = '';
-        $('div').innerHTML = " ";
-        $('div').empty();
-        htmlText += '<div >';
-        htmlText += '<p>Click to visit your cards. </p>';
-        htmlText += '<button type="submit" id="cards"class="btn btn-primary">Cards</button>';
-        htmlText += '</div>';
         $('#wrapper').append(htmlText);
         setTimeout(function () {
-          window.close();
+          config.socket.emit('logout', {
+            logout: 1
+          });
+       
+          config.socket.emit('closeiframe', {
+            close:1,
+            refresh:1
+             });
         }, 2000);
       })
     })

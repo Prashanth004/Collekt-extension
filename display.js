@@ -55,19 +55,19 @@ var display_searched = function (search_text, cardsold) {
             htmlText += '<button class="no_button_last"  id="addnew_' + cards[key]._id + '">Create new list</button>';
             htmlText += '</div>';
             htmlText += '</div>';
-            htmlText += '<div id="public_' + cards[key]._id + '"class="no_button4">'
-            htmlText += '<label class="switch">';
-            if (cards[key].public != 1) {
-                htmlText += ' <input id="check_' + cards[key]._id + '"type="checkbox">';
-            } else {
-                htmlText += ' <input type="checkbox" checked>';
-            }
-            htmlText += '<span class="slider round"></span>';
-            htmlText += '</label>';
-            htmlText += '</div>'
+            // htmlText += '<div id="public_' + cards[key]._id + '"class="no_button4">'
+            // htmlText += '<label class="switch">';
+            // if (cards[key].public != 1) {
+            //     htmlText += ' <input id="check_' + cards[key]._id + '"type="checkbox">';
+            // } else {
+            //     htmlText += ' <input type="checkbox" checked>';
+            // }
+            // htmlText += '<span class="slider round"></span>';
+            // htmlText += '</label>';
+            // htmlText += '</div>'
             htmlText += '<div class="no_button1" id="editcard_' + cards[key]._id + '"><i class="glyphicon glyphicon-pencil"></i></div>';
             htmlText += '<div class="no_button2" id="delete_' + cards[key]._id + '"><i class="glyphicon glyphicon-trash"></i></div>';
-            htmlText += '<div class="no_button3" id="expando_' + cards[key]._id + '"><i class="glyphicon glyphicon-star"></i></div>';
+            // htmlText += '<div class="no_button3" id="expando_' + cards[key]._id + '"><i class="glyphicon glyphicon-star"></i></div>';
             htmlText += '<div class="why" >';
             htmlText += '<p id="why_' + cards[key]._id + '" >Reason :    ' + cards[key].why + '</p>';
             htmlText += '</div>';
@@ -159,19 +159,19 @@ var display_content = function (domain, cardsold) {
             htmlText += '<button class="no_button_last"  id="addnew_' + cards[key]._id + '">Create new list</button>';
             htmlText += '</div>';
             htmlText += '</div>';
-            htmlText += '<div id="public_' + cards[key]._id + '"class="no_button4">'
-            htmlText += '<label class="switch">';
-            if (cards[key].public != 1) {
-                htmlText += ' <input id="check_' + cards[key]._id + '"type="checkbox">';
-            } else {
-                htmlText += ' <input type="checkbox" checked>';
-            }
-            htmlText += '<span class="slider round"></span>';
-            htmlText += '</label>';
-            htmlText += '</div>'
+            // htmlText += '<div id="public_' + cards[key]._id + '"class="no_button4">'
+            // htmlText += '<label class="switch">';
+            // if (cards[key].public != 1) {
+            //     htmlText += ' <input id="check_' + cards[key]._id + '"type="checkbox">';
+            // } else {
+            //     htmlText += ' <input type="checkbox" checked>';
+            // }
+            // htmlText += '<span class="slider round"></span>';
+            // htmlText += '</label>';
+            // htmlText += '</div>'
             htmlText += '<div class="no_button1" id="editcard_' + cards[key]._id + '"><i class="glyphicon glyphicon-pencil"></i></div>';
             htmlText += '<div class="no_button2" id="delete_' + cards[key]._id + '"><i class="glyphicon glyphicon-trash"></i></div>';
-            htmlText += '<div class="no_button3" id="expando_' + cards[key]._id + '"><i class="glyphicon glyphicon-star"></i></div>';
+            // htmlText += '<div class="no_button3" id="expando_' + cards[key]._id + '"><i class="glyphicon glyphicon-star"></i></div>';
             htmlText += '<div class="why" >';
             htmlText += '<p id="why_' + cards[key]._id + '" >Reason :    ' + cards[key].why + '</p>';
             htmlText += '</div>';
@@ -208,27 +208,33 @@ var display_content = function (domain, cardsold) {
             htmlText += '</a>'
             htmlText += '</div>';
             htmlText += '<div class="dropdown1">';
-            htmlText += '<div id="addtolist_' + cards[key]._id + '" ><i class="glyphicon glyphicon-list-alt"></i></div>';
+            console.log("(cards[key].lists.length)-1 : ",(cards[key].lists.length)-1)
+            htmlText +='<div class="numberOfList" id="openList_'+ cards[key]._id+'"><button class="no_button">'+String((cards[key].lists.length)-1)+'</button>'
+            htmlText += '</div>';
+            // htmlText += '<p >'+String((cards[key].lists.length)-1)+'</p>'
+           
+            htmlText += '<div style="float:right;position:relative; top:-25px;" id="addtolist_' + cards[key]._id + '" ><i class="glyphicon glyphicon-list-alt"></i></div>';
             htmlText += '<div class="dropdown-content1" padding="12px" id="dropdown_list2' + cards[key]._id + '" aria-labelledby="dropdownMenuButton">';
             for (var k in list) {
                 htmlText += '<div class="no_button" id="selectlist_' + cards[key]._id + '_' + list[k]._id + '">' + list[k].List_name + '</div>';
             }
             htmlText += '<button class="no_button_last"  id="addnew_' + cards[key]._id + '">Create new list</button>';
+         
+            htmlText +='</div>';
             htmlText += '</div>';
-            htmlText += '</div>';
-            htmlText += '<div id="public_' + cards[key]._id + '"class="no_button4">'
-            htmlText += '<label class="switch">';
-            if (cards[key].public != 1) {
-                htmlText += ' <input id="check_' + cards[key]._id + '"type="checkbox">';
-            } else {
-                htmlText += ' <input type="checkbox" checked>';
-            }
-            htmlText += '<span class="slider round"></span>';
-            htmlText += '</label>';
-            htmlText += '</div>'
+            // htmlText += '<div id="public_' + cards[key]._id + '"class="no_button4">'
+            // htmlText += '<label class="switch">';
+            // if (cards[key].public != 1) {
+            //     htmlText += ' <input id="check_' + cards[key]._id + '"type="checkbox">';
+            // } else {
+            //     htmlText += ' <input type="checkbox" checked>';
+            // }
+            // htmlText += '<span class="slider round"></span>';
+            // htmlText += '</label>';
+            // htmlText += '</div>'
             htmlText += '<div class="no_button1" id="editcard_' + cards[key]._id + '"><i class="glyphicon glyphicon-pencil"></i></div>';
             htmlText += '<div class="no_button2" id="delete_' + cards[key]._id + '"><i class="glyphicon glyphicon-trash"></i></div>';
-            htmlText += '<div class="no_button3" id="expando_' + cards[key]._id + '"><i class="glyphicon glyphicon-star"></i></div>';
+            // htmlText += '<div class="no_button3" id="expando_' + cards[key]._id + '"><i class="glyphicon glyphicon-star"></i></div>';
             htmlText += '<div class="why" >';
             htmlText += '<p id="why_' + cards[key]._id + '" >Reason :    ' + cards[key].why + '</p>';
             htmlText += '</div>';
