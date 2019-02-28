@@ -3,6 +3,7 @@
     "name": "Collekt",
     "version": "1.009",
     "description": "collect the contact detils",
+    "options_page": "cards.html",
     "icons": {
         "128": "icn128.png",
         "48": "icn48.png",
@@ -16,19 +17,17 @@
     "background": {
         "scripts": [
             "socketio.js",
-            "jquery.js",
             "utils2.js",
             "api.js",
-            "background.js",
+            "jquery.js",
             "eventPage.js",
+            "background.js",
             "api_call.js",
-            "test.js",
-            "options.js"
-          
+            "test.js"
         ],
         "persistant": false
     },
-    "web_accessible_resources": ["display.html","Login.html", "addIframe.js","serverDown.html"],
+    "web_accessible_resources": ["popup.html","Login.html", "addIframe.js","serverDown.html"],
     "content_scripts": [
         {
             "matches": [
@@ -38,14 +37,13 @@
                 "https://angel.co/*"
             ],
             "js": [
-                "jquery.js",
-                "socketio.js",
-                "utils2.js",
+               "socketio.js",
+               "api.js",
+               "utils2.js",
                 "test.js",
                 "content.js",
-                "dialog.js",
-                "login.js",
-                "backened.js"
+                "dialog.js"
+             
             ],
             "run_at": "document_end",
             "all_frames": true,
@@ -55,6 +53,7 @@
         }
     ],
     "content_security_policy": "script-src 'self' https://cdnjs.cloudflare.com; object-src 'self'",
+   
     "permissions": [
         "contextMenus",
         "storage",

@@ -11,11 +11,14 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     var is_angel = ' '
     
     if (request.todo == "showPageAction") {
+        chrome.tabs.query({active:true, currentWindow :true}, function(tabs){
+                chrome.tabs.executeScript(tabs.id, {file : "addIframe.js"})
+        })
        
         var new_tab_url = 1
         try {
             chrome.tabs.query({ active: true, currentWindow: true }, function (tabs1) {
-                  chrome.tabs.executeScript(tabs1.id, {file: "addIframe.js"});
+                //   chrome.tabs.executeScript(tabs1.id, {file: "addIframe.js"});
               
                 if (tabs1[0] == "undefined" || typeof (tabs1[0]) == undefined || tabs1[0] == undefined || typeof (tabs1[0]) == "undefined") {
                 }
@@ -75,7 +78,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         }
         try{
         chrome.tabs.getSelected(null, function (tab1) {
-            chrome.tabs.executeScript(tab1.id, {file: "addIframe.js"});
+            // chrome.tabs.executeScript(tab1.id, {file: "addIframe.js"});
 
             chrome.webNavigation.onHistoryStateUpdated.addListener(function (details) {
             

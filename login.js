@@ -11,10 +11,10 @@ $('#google').click(function () {
 })
 
 $('#close').click(function () {
-    socket = io.connect("https://bookmane.in"),
-    socket.emit('closeiframe', {
- close:1,
- refresh:0
-  });
+    var msg = {
+        type: 'close',
+        data: 'close'
+    };
+    parent.postMessage(msg, "*");
 })
 })

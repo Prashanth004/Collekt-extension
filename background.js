@@ -65,22 +65,7 @@ chrome.runtime.onInstalled.addListener(function (object) {
                   
                     file: "serverDown.js"
                 })
-                chrome.tabs.executeScript(tabs[i].id, {
-                  
-                    file: "backened.js"
-                })
-             
                
-                chrome.tabs.sendMessage(tabs[i].id, { action: "oneInstalled" , tab_id: tabs[i].id}, function (response) { });
-               
-                chrome.tabs.executeScript(tabs[i].id, {
-                  
-                    file: "eventPage.js"
-                })
-                config.server_down =1
-            
- 
-
             }
 
             
@@ -96,14 +81,12 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         test()
     
     }
-    })
+})
 
 chrome.browserAction.onClicked.addListener(function(tab)    { 
    
     config.server_down =1
     test()
-   
-  
   
     if(config.server_down !=0 ){
        

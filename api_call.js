@@ -2,9 +2,11 @@
 var tabIdHere = " "
 
 getStatus = function (name, url, domain, unq_name, tabId) {
+    console.log(" got into getStateus function : ",name, url, domain, unq_name, tabId )
     var urlHere = (url);
     var domainHere = (domain);
     var unqnameHere = (unq_name);
+    console.log("unique name : ", unq_name)
     tabIdHere = tabId;
     var settings = {
         "async": true,
@@ -36,21 +38,17 @@ getStatus = function (name, url, domain, unq_name, tabId) {
             console.log("sending the message")
 
             if (Number(autoCollection) != 0 &&  response.collected==0) {
-        chrome.tabs.sendMessage(tabId, { action: "open_dialog_box" }, function (response) { 
+        chrome.tabs.sendMessage(tabId, { action: "open_dialog_box" }, function (response) {
+           
         });
     }
-    chrome.tabs.sendMessage(tabId, { action: "showContent", User_name_new: name, Url: urlHere, domain: domain, unq_name: unq_name, isCollected: response.collected, sameDomain: response.sameDomain, diffDomain: response.diffDomain, befDomain: Domain, befUrl: old_url, autoCollection: autoCollection }, function (response1) {
+    setTimeout(function(){
+       chrome.tabs.sendMessage(tabId, { action: "showContent", User_name_new: name, Url: urlHere, domain: domain, unq_name: unq_name, isCollected: response.collected, sameDomain: response.sameDomain, diffDomain: response.diffDomain, befDomain: Domain, befUrl: old_url, autoCollection: autoCollection }, function (response1) {
     });
+    },400)
         })
 
-    chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-        if (request.todo == "closeDisplay") {
-            chrome.tabs.sendMessage(tabId, { action: "closeDisplay" }, function (response) { });
-            return Promise.resolve("Dummy response to keep the console quiet");
-        }
-        return Promise.resolve("Dummy response to keep the console quiet");
-
-    })
+  
 }
 
 

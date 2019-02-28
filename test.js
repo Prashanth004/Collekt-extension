@@ -10,9 +10,6 @@ var test = function () {
     "method": "GET",
     "headers": {
       "Content-Type": "application/x-www-form-urlencoded",
-     
-
-     
     },
 
   }
