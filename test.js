@@ -19,13 +19,10 @@ var test = function () {
 
   $.ajax(settings)
     .done(function (response) {
-
       config.server_down = 0;
       config.isloggedin = response.login_status;
       config.active_status = response.active_status;
-
       atomatic = response.data.autocollect
-
       
     })
     .fail(function (err) {

@@ -14,7 +14,20 @@
 }
 
 
+.msgSmall1{
+    display:none;
+    padding:18px;
+    border-style: none;
+    border-bottom-style: solid;
+    border-bottom-color:#eee;
+    width:100%; 
+    align-items: center;
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    background-color:white;
 
+}
 
 
 .wlcmMsg{
@@ -37,7 +50,7 @@
     align-items: center;
     text-align: center;
 }
-.name{
+.namefield{
     display:none;
     align-content: center;
     align-items: center;

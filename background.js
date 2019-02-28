@@ -1,5 +1,4 @@
 URLdomain = "https://bookmane.in/collekt"
-
 chrome.runtime.onInstalled.addListener(function (object) {
     localStorage.setItem("autoCollect", String(1))
     chrome.tabs.create({ url: URLdomain }, function (tab) {
@@ -16,10 +15,7 @@ chrome.runtime.onInstalled.addListener(function (object) {
             linked=/linkedin.com/;
             angl = /angel.co/;
             if(_urlll.match(fb)||_urlll.match(twi) || _urlll.match(linked) || _urlll.match(angl)){
-               
-
-               
-               
+         
                 chrome.tabs.executeScript(tabs[i].id, {
                   
                     file: "socketio.js"
@@ -27,6 +23,9 @@ chrome.runtime.onInstalled.addListener(function (object) {
                 chrome.tabs.executeScript(tabs[i].id, {
                   
                     file: "jquery.js"
+                })
+                chrome.tabs.executeScript(tabs[i].id,{
+                    file:"addIframe.js"
                 })
                 chrome.tabs.executeScript(tabs[i].id, {
                   
@@ -89,6 +88,15 @@ chrome.runtime.onInstalled.addListener(function (object) {
     });
 
 });
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    var is_angel = ' '
+    
+    if (request.todo == "signinDone") {
+        console.log("i got pingged")
+        test()
+    
+    }
+    })
 
 chrome.browserAction.onClicked.addListener(function(tab)    { 
    
@@ -106,6 +114,7 @@ chrome.browserAction.onClicked.addListener(function(tab)    {
         chrome.tabs.sendMessage(tab.id, { action: "open_login" }, function (response) { });
     }
      else{
+         console.log("sendong another message")
         chrome.tabs.sendMessage(tab.id, { action: "open_dialog_box" },  function (response) { });
     }
 });

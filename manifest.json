@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Collekt",
-    "version": "1.006",
+    "version": "1.009",
     "description": "collect the contact detils",
     "icons": {
         "128": "icn128.png",
@@ -21,7 +21,6 @@
             "api.js",
             "background.js",
             "eventPage.js",
-            
             "api_call.js",
             "test.js",
             "options.js"
@@ -29,7 +28,7 @@
         ],
         "persistant": false
     },
-    "web_accessible_resources": ["display.html","Login.html","serverDown.html"],
+    "web_accessible_resources": ["display.html","Login.html", "addIframe.js","serverDown.html"],
     "content_scripts": [
         {
             "matches": [
@@ -39,7 +38,6 @@
                 "https://angel.co/*"
             ],
             "js": [
-                
                 "jquery.js",
                 "socketio.js",
                 "utils2.js",
@@ -48,10 +46,8 @@
                 "dialog.js",
                 "login.js",
                 "backened.js"
-                
-               
             ],
-            "run_at": "document_idle",
+            "run_at": "document_end",
             "all_frames": true,
             "css": [
                 "content.css"

@@ -31,6 +31,7 @@ socket.on('setPopWithHome', function(data){
   
     setPopToHome()
     closeIFrame()
+   
 })
 
 socket.on('closeiframe', function (data) {
@@ -42,39 +43,31 @@ socket.on('closeiframe', function (data) {
     if(data.refresh==1){
         refresh()
     }
+    if(data.signindone == 1){
+        inFormSigninDone()
+    }
     
 })
+  
 
 
-
-var iframe = document.createElement('iframe');
-iframe.id = "normalIframe"
-iframe.style.background = "white";
-iframe.style.width = "0px";
-iframe.style.height = "50%";
-iframe.style.marginToptop = "10px";
-iframe.style.borderRadius = "8px";
-iframe.frameBorderRadius = "8px";
-iframe.style.position = "fixed";
-iframe.style.top = "0px";
-iframe.style.right = "0px";
-iframe.style.zIndex = "9000000000000000000";
-iframe.frameBorder = "none";
-iframe.src = chrome.extension.getURL("display.html")
-top.document.body.appendChild(iframe);
 
 
 
 
 function open_dialog() {
   
-
+console.log("command executed")
+// setTimeout(function(){
     if (iframe.style.width == "0px") {
         iframe.style.width = "240px";
     }
     else {
         iframe.style.width = "240px";
     }
+
+// },500)
+    
 }
 
 
@@ -105,9 +98,19 @@ function openServerProbem() {
     }
 }
 
+function inFormSigninDone(){
+    console.log("sendong message for signAction")
+    setTimeout(function(){
+        chrome.runtime.sendMessage({todo:"signinDone"});
+    },1500)
+}
+
 
 function refresh() {
     iframe.src = iframe.src;
+   setTimeout(()=>{
+    test()
+   },1000)
 }
 
 function resizeIframe(obj) {
@@ -116,7 +119,12 @@ function resizeIframe(obj) {
 }
 
 function closeIFrame() {
+  
+
     iframe.style.width = "0px";
+    document.getElementById("normalIframe").style.width = "0px";
+   
+   
 }
 
 

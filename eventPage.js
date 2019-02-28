@@ -4,32 +4,30 @@ var socket = " "
 
 var exceuted = 0
 
+
+
 // chrome.runtime.onInstalled.addListener(function (object) {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     var is_angel = ' '
-    if (request.todo == "showPageAction") {
     
-       
+    if (request.todo == "showPageAction") {
        
         var new_tab_url = 1
         try {
             chrome.tabs.query({ active: true, currentWindow: true }, function (tabs1) {
+                  chrome.tabs.executeScript(tabs1.id, {file: "addIframe.js"});
               
                 if (tabs1[0] == "undefined" || typeof (tabs1[0]) == undefined || tabs1[0] == undefined || typeof (tabs1[0]) == "undefined") {
                 }
                 else {
                     is_angel = (tabs1[0].url.split("/")[2].split(".")[0])
                     _url = tabs1[0].url
-
                     if (is_angel == "angel") {
-                       
-                        
+                      
                         if (config.isloggedin == 1 && config.active_status == 1) {
                             chrome.tabs.executeScript(
                                 tabs1.id,
-                               
                                 { code: "document.querySelector('h1[class=\"u-fontSize25 u-fontSize24SmOnly u-fontWeight500\"]').innerHTML" },
-                                
                                 function (results) {
                                     let e = chrome.runtime.lastError;
                                     if (e !== undefined) {
@@ -77,15 +75,12 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         }
         try{
         chrome.tabs.getSelected(null, function (tab1) {
-
-
-            
+            chrome.tabs.executeScript(tab1.id, {file: "addIframe.js"});
 
             chrome.webNavigation.onHistoryStateUpdated.addListener(function (details) {
             
                exceuted = 0
                     if (((details.url.split(".")[1]) == "facebook" || ((details.url.split("/")[2].split(".")[1]) == "linkedin")) || (((details.url.split("/")[2].split(".")[0]) == "twitter"))) {
-                      
                         if (config.isloggedin == 1 && config.active_status == 1) {
                             if (details.frameId === 0) {
                               
@@ -101,9 +96,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
                                                     }
                                                        
-                                                    else if(exceuted ===0){
+                                                    else if(exceuted ===0 ){
                                                         exceuted = 1;
-                                                      
+                                                   
                                                         var _url = tabs2[0].url;
                                                         var str1 = _url.split(".");
                                                         var domain = str1[1];

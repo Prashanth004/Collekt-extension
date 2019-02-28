@@ -6,8 +6,10 @@ URLdomain = "https://bookmane.in/collekt"
 
 
 chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
-   
+
     if (msg.action == "showContent") {
+        console.log("sender : ",sender)
+        console.log("mag : ",msg)
 
         showname = 0
         showYesNo = 0
@@ -16,11 +18,10 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
         displayList()
         $('#name').text(msg.User_name_new)
         msgnew = msg
-
-
+        console.log("js file getting called")
         if (msg.isCollected == 1) {
-         
             $('.welcome').css({ 'display': 'none' });
+            $('.msgSmall1').css({'display':'none'})
             $('.msgSmall').css({ 'display': 'block' });
             $('.reason').css({ 'display': 'none' });
             $('.list').css({ 'display': 'none' });
@@ -36,10 +37,9 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
                 $('.welcome').css({ 'display': 'none' });
                 $('#pevname').text(msg.User_name_new);
                 $('.warning1').css({ 'display': 'block' });
-                $('.name').css({ 'display': 'block' });
+                $('.namefield').css({ 'display': 'block' });
                 $('.reason').css({ 'display': 'block' });
                 $('.list').css({ 'display': 'block' });
-
                 $('#submit').css({ 'display': 'block' });
             }
             else if (showYesNo == 1) {
@@ -49,24 +49,22 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
                 $('#submit').css({ 'display': 'none' });
                 $('.reason').css({ 'display': 'none' });
                 $('.list').css({ 'display': 'none' });
-
                 $('#prevDomain').text(msg.befDomain);
                 $('#link').attr({ 'href': msg.befUrl });
                 $('.warning2').css({ 'display': 'block' });
                 $('#pevname2').text(msg.User_name_new);
                 $('.yesno').css({ 'display': 'block' });
-
-
             }
             else {
-                
+                console.log("getting pinged")
+                $('.welcome').css({ 'display': 'none' });
                 $('.warning2').css({ 'display': 'none' });
                 $('.msgSmall').css({ 'display': 'none' });
                 $('.yesno').css({ 'display': 'none' });
                 $('#pevname').text(" ");
-                $('.welcome').css({ 'display': 'none' });
+                $('.msgSmall1').css({'display':'none'})
                 $('.warning1').css({ 'display': 'none' });
-                $('.name').css({ 'display': 'none' });
+                $('.namefield').css({ 'display': 'none' });
                 $('.reason').css({ 'display': 'block' });
                 $('#submit').css({ 'display': 'block' });
             }
@@ -110,11 +108,13 @@ $(function () {
 
 
     $('#close').click(function () {
+     
+        // chrome.runtime.sendMessage({ todo: "closeDisplay" });
         config.socket.emit('closeiframe', {
             close: 1,
             refresh: 0
         });
-        chrome.runtime.sendMessage({ todo: "closeDisplay" });
+       
     })
 
 
@@ -140,11 +140,9 @@ $(function () {
             else {
                 $('#autoText').text("Manual")
                 localStorage.setItem("autoCollect", String(0))
-
             }
 
         }, 1000)
-
     })
 
     $('#formLink').attr({ 'href': config.feedbackLink })
@@ -156,7 +154,6 @@ $(function () {
         $('#showCards').css({ 'display': 'none' });
         $('#name').text("Offline");
         $('.welcome').text("No internet connectivity. :(")
-
     }
     $('#showCards').click(function () {
         chrome.tabs.create({ url: "cards.html" });
@@ -191,7 +188,6 @@ $(function () {
             why_text = "Edit this";
         }
         var settings = {
-            
             "async": false,
             "crossDomain": true,
             "url": config.domain + "/product/create",
@@ -232,14 +228,12 @@ $(function () {
                     refresh: 0
                 });
                 chrome.runtime.sendMessage({ todo: "closeDisplay" });
-            },2000);
-
-
+            },1000);
 
         }).catch(err =>{
             setTimeout(function(){
                 chrome.runtime.sendMessage({ todo: "closeDisplay" });
-            },2000);
+            },1000);
      
         })
        
@@ -256,16 +250,8 @@ $(function () {
         $('.yesno').css({ 'display': 'none' });
         $('.reason').css({ 'display': 'block' });
         $('#submit').css({ 'display': 'block' });
-
-
     })
 })
-
-
-
-
-
-
 
 var getDate = function (date) {
 
