@@ -8,13 +8,15 @@ chrome.runtime.onInstalled.addListener(function (object) {
 
     chrome.tabs.query({currentWindow: true}, function(tabs) {
         for(i in tabs){
-            var _urlll = tabs[i].url;
-           
+            var _urlll = tabs[0].url;
             fb=/facebook.com/;
             twi=/twitter.com/;
             linked=/linkedin.com/;
             angl = /angel.co/;
             if(_urlll.match(fb)||_urlll.match(twi) || _urlll.match(linked) || _urlll.match(angl)){
+            
+           
+           
          
                 chrome.tabs.executeScript(tabs[i].id, {
                   
@@ -68,8 +70,8 @@ chrome.runtime.onInstalled.addListener(function (object) {
                
             }
 
-            
-        }
+        }    
+        
     });
 
 });
@@ -84,20 +86,37 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 })
 
 chrome.browserAction.onClicked.addListener(function(tab)    { 
+
+    chrome.tabs.query({active:true, currentWindow :true}, function(tabs) {
+    var _urlll = tabs[0].url;
+    fb=/facebook.com/;
+    twi=/twitter.com/;
+    linked=/linkedin.com/;
+    angl = /angel.co/;
+    if(_urlll.match(fb)||_urlll.match(twi) || _urlll.match(linked) || _urlll.match(angl)){
+        config.server_down =1
+        test()
+      
+        if(config.server_down !=0 ){
+           
+        chrome.tabs.sendMessage(tab.id, { action: "openServerProbem" }, function (response) { });
+        }
+        else if(config.isloggedin == 0 || config.active_status == 0){
+        
+            chrome.tabs.sendMessage(tab.id, { action: "open_login" }, function (response) { });
+        }
+         else{
+             console.log("sendong another message")
+            // chrome.tabs.sendMessage(tab.id, { action: "open_dialog_box" },  function (response) { });
+            runMachineHere(tabs)
+        }
+    }
+    else{
+        chrome.tabs.sendMessage(tab.id, { action: "canNotProvideService" }, function (response) { });
+        
+
+    }
+})
    
-    config.server_down =1
-    test()
-  
-    if(config.server_down !=0 ){
-       
-    chrome.tabs.sendMessage(tab.id, { action: "openServerProbem" }, function (response) { });
-    }
-    else if(config.isloggedin == 0 || config.active_status == 0){
-    
-        chrome.tabs.sendMessage(tab.id, { action: "open_login" }, function (response) { });
-    }
-     else{
-         console.log("sendong another message")
-        chrome.tabs.sendMessage(tab.id, { action: "open_dialog_box" },  function (response) { });
-    }
+   
 });

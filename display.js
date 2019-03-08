@@ -15,18 +15,25 @@ var elementGenerator = function(cards){
     htmlText += '</a>'
     htmlText += '</div>';
     htmlText += '<div class="dropdown1">';
-    htmlText +='<div class="numberOfList" id="openList_'+ cards._id+'"><button class="no_button" style="color:blue">'+String((cards.lists.length)-1)+'</button>'
+    htmlText +='<div class="numberOfList" id="openList_'+ cards._id+'"><button class="no_button" style="color:blue"><span class="hint--top" aria-label="Number of lists that constains this card">'+String((cards.lists.length)-1)+'</span></button>'
     htmlText += '</div>';
-    htmlText += '<div style="float:right;position:relative; top:-27px;" id="addtolist_' + cards._id + '" ><i class="glyphicon glyphicon-list-alt"></i></div>';
+    // htmlText +=' <span class="hint--right" aria-label="Edit">'
+    htmlText += '<button class="addTolist" id="addtolist_' + cards._id + '" ><span class="hint--top" aria-label="Add card to list"><i class="glyphicon glyphicon-list-alt"></i></span></button>';
+        // htmlText+='  </span>'
     htmlText += '<div class="dropdown-content1" padding="12px" id="dropdown_list2' + cards._id + '" aria-labelledby="dropdownMenuButton">';
     for (var k in list) {
-        htmlText += '<div class="no_button" id="selectlist_' + cards._id + '_' + list[k]._id + '">' + list[k].List_name + '</div>';
+        htmlText += '<button class="noButton" id="selectlist_' + cards._id + '_' + list[k]._id + '">' + list[k].List_name + '</button>';
+        htmlText += '<br/>' 
     }
     htmlText += '<button class="no_button_last"  id="addnew_' + cards._id + '">Create new list</button>';
     htmlText +='</div>';
     htmlText += '</div>';
-    htmlText += '<div class="no_button1" id="editcard_' + cards._id + '"><i class="glyphicon glyphicon-pencil"></i></div>';
-    htmlText += '<div class="no_button2" id="delete_' + cards._id + '"><i class="glyphicon glyphicon-trash"></i></div>';
+    // htmlText+= '<span class="hint--top" aria-label="Edit Reason">'
+    htmlText += '<div class="no_button1" id="editcard_' + cards._id + '">'
+    htmlText += '<a href="#"><i class="glyphicon glyphicon-pencil"></i></a>'
+    htmlText += '</div>';
+    // htmlText +='</span>'
+    htmlText += '<div class="no_button2" id="delete_' + cards._id + '"><a href="#"><i class="glyphicon glyphicon-trash"></a></i></div>';
     htmlText += '<div class="why" >';
     htmlText += '<p class="why_text "id="why_' + cards._id + '" >Reason :    ' + cards.why + '</p>';
     htmlText += '</div>';

@@ -704,134 +704,12 @@ $(function () {
 
 
         // })
-
-
-
-
-
-
       }
-      if (kind_of_id == "share") {
-        _id = id_name.split("_")[1]
-        var chars = { 'a': 'd', 'd': 'y', 'y': 'a' };
-        enc = _id.replace(/[ady]/g, m => chars[m]);
-        sharableLink = config.domain + "/share/show/list/" + enc
-        card_ids = []
-        get_lis_details(_id)
 
-        $('#mdalCont').empty()
-        if (card_ids.length == 0) {
-          var htmlEl = " "
-          htmlEl += '<span id="linkSpan" class="close">&times;</span>';
-          htmlEl += '<p>Sharable link is :</p>';
-          htmlEl += '<br/>';
-          htmlEl += '<p id="link">no cards are present in the list to share</p>';
-          $('#mdalCont').append(htmlEl)
-
-
-        }
-        else {
-          var htmlEl = " "
-          htmlEl += '<span id="linkSpan" class="close">&times;</span>';
-          htmlEl += '<p>Sharable link is :</p>';
-          htmlEl += '<br/>';
-          htmlEl += '<p id="link">' + sharableLink + '</p>';
-          htmlEl += '<button id="coppy" class ="btn btn-dark">Coppy to clipbaort</button>';
-
-          $('#mdalCont').append(htmlEl)
-
-        }
-        $('#linkModal').css("display", "block");
-        $('#coppy').click(function () {
-          copyToClipboard('link')
-          htm = " ";
-          htm += '<p id="cpyconf">Copied !!</p>';
-          $('#mdalCont').append(htm)
-          setTimeout(function () {
-            $('#cpyconf').remove()
-
-          }, 1500);
-
-        })
-        $(".close").click(function () {
-          $("#linkModal").css({ 'display': 'none' });
-        })
-
-
-
-
-
-      }
       if (kind_of_id == "res") {
 
       }
-      if (kind_of_id == "deletlst") {
-        _id = id_name.split("_")[1]
-        card_ids = []
-        get_lis_details(_id)
-        
-        $("#dltModal").css({ 'display': 'block' });
-        $("#alertdlt").empty()
-        var html = " "
-        html += '<p>List contains '+card_ids.length+' cards</p>' 
-        html += '<p>You can not retrieve data once deleted.Are you sure you wanna delete this list?</p>'
-        $("#alertdlt").append(html)
-        $("#cancel_dlt_lst").click(function () {
-          $("#dltModal").css({ 'display': 'none' });
-        })
-        $(".close").click(function () {
-          $("#dltModal").css({ 'display': 'none' });
-        })
 
-        $('#confirm_yes_dlt_lst').click(function () {
-
-          $('#divlst_' + _id).remove()
-          var settings = {
-            "async": true,
-            "crossDomain": true,
-            "url": config.domain + "/list/" + _id,
-            "method": "DELETE",
-            "headers": {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-
-          }
-
-          $.ajax(settings).done(function (response) {
-
-
-
-
-            var settings = {
-              "async": true,
-              "crossDomain": true,
-              "url": config.domain + "/product/delete/list/",
-              "method": "PUT",
-              "headers": {
-
-              },
-              "data": {
-                "listId": _id
-              }
-            }
-
-            $.ajax(settings).done(function (response) {
-              
-              $("#dltModal").css({ 'display': 'none' });
-              $('#dltLstConf').css({"display":"block"})
-              setTimeout(function(){
-                config.socket.emit('deleteLst', {
-                  ID: _id
-                });
-
-              },1000)
-              
-            });
-          });
-
-        })
-
-      }
       if (kind_of_id == "button" || kind_of_id == "name" )  {
         $('.wrapper').css({'margin-top':'60px'});
         $('#search-list').css({'display':'none'});
@@ -890,13 +768,7 @@ $(function () {
           $('#colapse_' + _id).fadeOut('slow');
         });
       }
-      if (kind_of_id == "selectlist") {
-        card_id = id_name.split("_")[1];
-        List_id = id_name.split("_")[2];
-
-        add_card_to_list(card_id, List_id)
-
-      }
+     
 
 
       if (kind_of_id == "delete") {
@@ -1005,9 +877,138 @@ $(function () {
     $(document).delegate('button', 'click', function (button) {
 
       var id_name = button.currentTarget.id
+      var kind_of_id = id_name.split("_")[0]
+      _id = id_name.split("_")[1];
+
+      if (kind_of_id == "share") {
+        _id = id_name.split("_")[1]
+        var chars = { 'a': 'd', 'd': 'y', 'y': 'a' };
+        enc = _id.replace(/[ady]/g, m => chars[m]);
+        sharableLink = config.domain + "/share/show/list/" + enc
+        card_ids = []
+        get_lis_details(_id)
+
+        $('#mdalCont').empty()
+        if (card_ids.length == 0) {
+          var htmlEl = " "
+          htmlEl += '<span id="linkSpan" class="close">&times;</span>';
+          htmlEl += '<p>Sharable link is :</p>';
+          htmlEl += '<br/>';
+          htmlEl += '<p id="link">no cards are present in the list to share</p>';
+          $('#mdalCont').append(htmlEl)
+
+
+        }
+        else {
+          var htmlEl = " "
+          htmlEl += '<span id="linkSpan" class="close">&times;</span>';
+          htmlEl += '<p>Sharable link is :</p>';
+          htmlEl += '<br/>';
+          htmlEl += '<p id="link">' + sharableLink + '</p>';
+          htmlEl += '<button id="coppy" class ="btn btn-dark">Coppy to clipbaort</button>';
+
+          $('#mdalCont').append(htmlEl)
+
+        }
+        $('#linkModal').css("display", "block");
+        $('#coppy').click(function () {
+          copyToClipboard('link')
+          htm = " ";
+          htm += '<p id="cpyconf">Copied !!</p>';
+          $('#mdalCont').append(htm)
+          setTimeout(function () {
+            $('#cpyconf').remove()
+
+          }, 1500);
+
+        })
+        $(".close").click(function () {
+          $("#linkModal").css({ 'display': 'none' });
+        })
+      }
+
+      if (kind_of_id == "deletlst") {
+        _id = id_name.split("_")[1]
+        card_ids = []
+        get_lis_details(_id)
+        
+        $("#dltModal").css({ 'display': 'block' });
+        $("#alertdlt").empty()
+        var html = " "
+        html += '<p>List contains '+card_ids.length+' cards</p>' 
+        html += '<p>You can not retrieve data once deleted.Are you sure you wanna delete this list?</p>'
+        $("#alertdlt").append(html)
+        $("#cancel_dlt_lst").click(function () {
+          $("#dltModal").css({ 'display': 'none' });
+        })
+        $(".close").click(function () {
+          $("#dltModal").css({ 'display': 'none' });
+        })
+
+        $('#confirm_yes_dlt_lst').click(function () {
+
+          $('#divlst_' + _id).remove()
+          var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": config.domain + "/list/" + _id,
+            "method": "DELETE",
+            "headers": {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+
+          }
+
+          $.ajax(settings).done(function (response) {
+            var settings = {
+              "async": true,
+              "crossDomain": true,
+              "url": config.domain + "/product/delete/list/",
+              "method": "PUT",
+              "headers": {
+
+              },
+              "data": {
+                "listId": _id
+              }
+            }
+
+            $.ajax(settings).done(function (response) {
+              
+              $("#dltModal").css({ 'display': 'none' });
+              $('#dltLstConf').css({"display":"block"})
+              setTimeout(function(){
+                config.socket.emit('deleteLst', {
+                  ID: _id
+                });
+
+              },1000)
+              
+            });
+          });
+
+        })
+
+      }
+      if (kind_of_id == "selectlist") {
+        card_id = id_name.split("_")[1];
+        List_id = id_name.split("_")[2];
+
+        add_card_to_list(card_id, List_id)
+
+      }
 
 
 
+      if (kind_of_id == "addtolist") {
+        _id = id_name.split("_")[1]
+        $('#dropdown_list2' + _id).toggle('fast', function () {
+        })
+        $('#dropdown_list2' + _id).mouseleave(function () {
+          $('#dropdown_list2' + _id).fadeOut('slow');
+        });
+
+      }
 
 
 

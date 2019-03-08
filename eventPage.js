@@ -4,16 +4,114 @@ var socket = " "
 
 var exceuted = 0
 
+function runMachineHere(tab){
+    var clickicon = true
+    var _url = tab[0].url
+    var url_string = " "
+    var unq_name = " "
+   var domainTypeOne = _url.split("/")[2].split(".")[0]
+   var domainTypeTwo = _url.split(".")[1]
+   if(domainTypeOne == "angel")
+   {
+    chrome.tabs.executeScript(
+        tab[0].id,
+        { code: "document.querySelector('h1[class=\"u-fontSize25 u-fontSize24SmOnly u-fontWeight500\"]').innerHTML" },
+        function (results) {
+            let e = chrome.runtime.lastError;
+            if (e !== undefined) {
+            }
+            if (results[0] != null) {
+                var User_name_new = (results[0]);
+                User_name_new = User_name_new.split("<")[0]
+                url_string = _url.split("/")
+                unq_name=url_string[3]
+                getStatus(User_name_new, _url, domainTypeOne, unq_name, tab[0].id, clickicon)
+            }
+        })
 
+   }
+   if(domainTypeOne == "twitter")
+   {
+    chrome.tabs.executeScript(
+        tab[0].id,
+        { code: "document.querySelector('a[class=\"ProfileHeaderCard-nameLink u-textInheritColor js-nav\"]').innerHTML" },
+        function (results) {
+            let e = chrome.runtime.lastError;
+            if (e !== undefined) {
+            }
+            if (results[0] != null) {
+                User_name_new = (results[0]);
+                unq_name= _url.split("/")[3]
+                getStatus(User_name_new, _url, domainTypeOne, unq_name, tab[0].id, clickicon)
+            }
+        })
+
+   }
+   if(domainTypeTwo == "facebook"){
+    chrome.tabs.executeScript(                                                                tab.id,
+        { code: "document.querySelector('a[class=\"_2nlw _2nlv\"]').innerHTML" },
+        function (results, err) {
+            let e = chrome.runtime.lastError;
+            if (e !== undefined) {
+            }
+            if(results[0] != null){
+                User_name_new = (results[0]);
+                url_string = _url.split("/")
+                unq_name=url_string[3]
+                if(unq_name.includes('?'))
+                {
+                    url_string = unq_name.split("?")
+                    unq_name = url_string[0]
+                }
+                var expr = /</;
+                if (User_name_new.match(expr)) {
+                    User_name_new = User_name_new.split("<")[0]
+                }
+                getStatus(User_name_new, _url, domainTypeTwo, unq_name, tab[0].id, clickicon)
+            }
+        })
+   }
+    if(domainTypeTwo == "linkedin"){
+        chrome.tabs.executeScript(
+            tab[0].id,
+            { code: "document.querySelector('h1[class=\"pv-top-card-section__name inline t-24 t-black t-normal\"]').innerHTML" },
+            function (results) {
+                let e = chrome.runtime.lastError;
+                if (e !== undefined) {
+                    console.log(e);
+                }
+               
+                if (results && results[0] != null) {
+                    User_name_new = (results[0]);
+                    url_string = _url.split("/")
+                    unq_name=url_string[4]
+                    getStatus(User_name_new, _url, domainTypeTwo, unq_name, tab[0].id, clickicon)
+                }
+            })
+
+    }
+}
 
 // chrome.runtime.onInstalled.addListener(function (object) {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     var is_angel = ' '
+
     
     if (request.todo == "showPageAction") {
-        chrome.tabs.query({active:true, currentWindow :true}, function(tabs){
-                chrome.tabs.executeScript(tabs.id, {file : "addIframe.js"})
+        var clickicon = false
+        chrome.storage.sync.set({ 'User_name': null, "unqname":null }, function () {
         })
+        
+        chrome.tabs.query({active:true, currentWindow :true}, function(tabs){
+            console.log("tabs :",tabs)
+            if(tabs.length > 0){
+
+            
+                chrome.tabs.executeScript(tabs.id, {file : "addIframe.js"})
+     if (((tabs[0].url.split(".")[1]) == "facebook" || ((tabs[0].url.split("/")[2].split(".")[1]) == "linkedin")) || ((tabs[0].url.split("/")[2].split(".")[0]) == "twitter") || (((tabs[0].url.split("/")[2].split(".")[0]) == "angel"))) {
+     
+      
+       
        
         var new_tab_url = 1
         try {
@@ -41,6 +139,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                         url_string = _url.split("/")
                                         unq_name=url_string[3]
                                     }
+                                  
                                     chrome.storage.sync.get(['User_name'], function (User_name_old) {
 
                                         if (User_name_old.User_name != User_name_new && User_name_new != null) {
@@ -53,7 +152,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                             chrome.storage.sync.set({ 'User_name': User_name_new }, function () {
                                             })
                                             chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-                                                getStatus(User_name_new, _url, is_angel, unq_name, tabs1[0].id)
+                                                getStatus(User_name_new, _url, is_angel, unq_name, tabs1[0].id,clickicon)
                                             });
                                             flag = 0;
                                         }
@@ -150,7 +249,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                                                                 if (User_name_new.match(expr)) {
                                                                                     User_name_new = User_name_new.split("<")[0]
                                                                                 }
-                                                                                getStatus(User_name_new,_url,domain,unq_name,tabs2[0].id)
+                                                                                getStatus(User_name_new,_url,domain,unq_name,tabs2[0].id,clickicon)
                                                                                 flag = 0;
                                                                             }
     
@@ -160,7 +259,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
                                                                     }
                                                                     else{
-                                                                      
+                                                                        chrome.storage.sync.set({ 'User_name': null, "unqname":null }, function () {
+                                                                        })
                                                                        
                                                                         User_name_new = null; 
                                                                     }
@@ -209,7 +309,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                                                             })
                                                                             chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
                                                                                 console.log("Final stage")
-                                                                                getStatus(User_name_new,_url,domain,unq_name,tabs[0].id)
+                                                                                getStatus(User_name_new,_url,domain,unq_name,tabs[0].id,clickicon)
                                                                                 // chrome.tabs.sendMessage(tabs[0].id, { action: "open_dialog_box", User_name_new: User_name_new, _url: _url, domain: domain }, function (response) { });
                                                                             });
                                                                             flag = 0;
@@ -256,7 +356,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                                                             })
                                                                             chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
                                                                                 console.log("final stage")
-                                                                                getStatus(User_name_new,_url,domain,unq_name,tabs[0].id)
+                                                                                getStatus(User_name_new,_url,domain,unq_name,tabs[0].id,clickicon)
                                                                                 // chrome.tabs.sendMessage(tabs[0].id, { action: "open_dialog_box", User_name_new: User_name_new, _url: _url, domain: domain }, function (response) { });
                                                                             });
                                                                             flag = 0;
@@ -293,7 +393,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     catch(e){
         console.log("error : ",e)
     }
+}
+            }
+ })
 
     }
+    
 });
 

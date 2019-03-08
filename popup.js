@@ -8,6 +8,7 @@ URLdomain = "https://bookmane.in/collekt"
 chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
 
     if (msg.action == "showContent") {
+        sendResponse({gotmessage: "gotmessage"});
         console.log("sender : ",sender)
         console.log("mag : ",msg)
 
@@ -17,6 +18,9 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
         showname = msg.sameDomain
         displayList()
         $('#name').text(msg.User_name_new)
+        // $('.reason').text(' ')
+        $("#reason").attr("value", "");
+        $("#reason").val('')
         msgnew = msg
         console.log("js file getting called")
         if (msg.isCollected == 1) {
@@ -26,17 +30,18 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
             $('.reason').css({ 'display': 'none' });
             $('.list').css({ 'display': 'none' });
             $('#submit').css({ 'display': 'none' }); 
-            var msg = {
-                type: 'close',
-                data: 'close'
-            };
-            parent.postMessage(msg, "*");
+            // var msg = {
+            //     type: 'close',
+            //     data: 'close'
+            // };
+            // parent.postMessage(msg, "*");
         }
         else {
          
             if (showname == 1) {
                 $('.warning2').css({ 'display': 'none' });
                 $('.msgSmall').css({ 'display': 'none' });
+                $('.msgSmall1').css({'display':'none'})
                 $('.yesno').css({ 'display': 'none' });
                 $('.welcome').css({ 'display': 'none' });
                 $('#pevname').text(msg.User_name_new);
@@ -49,6 +54,7 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
             else if (showYesNo == 1) {
                 $('.welcome').css({ 'display': 'none' });
                 $('.msgSmall').css({ 'display': 'none' });
+                $('.msgSmall1').css({'display':'none'})
                 $('.warning1').css({ 'display': 'none' });
                 $('#submit').css({ 'display': 'none' });
                 $('.reason').css({ 'display': 'none' });
@@ -108,9 +114,7 @@ console.log("error")
 
 $(function () {
     var listField = null
-    config.server_down = 1
-
-
+   
     $('#close').click(function () {
         var msg = {
             type: 'close',
@@ -144,7 +148,7 @@ $(function () {
         }, 1000)
     })
 
-    $('#formLink').attr({ 'href': config.feedbackLink })
+   
     $('#help').click(function () {
         chrome.tabs.create({ url: "help.html" });
     })
@@ -210,6 +214,10 @@ $(function () {
         $.ajax(settings).done(function (response) {
             $('.welcome').css({ 'display': 'none' });
             $('#succesSave').css({ 'display': 'block' });
+            $('.warning2').css({ 'display': 'none' });
+            $('.yesno').css({ 'display': 'none' });
+            $('.warning1').css({ 'display': 'none' });
+            $('.namefield').css({ 'display': 'none' });
             $('.reason').css({ 'display': 'none' });
             $('.list').css({ 'display': 'none' });
             $('#submit').css({ 'display': 'none' }); 

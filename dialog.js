@@ -14,6 +14,9 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
     if(msg.action == "openServerProbem"){
         openServerProbem()
     }
+    if(msg.action == "canNotProvideService"){
+        openServiceNotProvided()
+    }
 })
 
 socket.on('closeiframe', function (data) {
@@ -51,7 +54,18 @@ if (event.data.type && (event.data.type === 'close'))
     }
 });
 
+function openServiceNotProvided(){
+    console.log("ckpdmkndwok")
+    var iframe = document.querySelector('#normalIframe')
+    if(iframe!= null){
+        console.log("changing the conetent")
+     iframe.src=chrome.extension.getURL("NoService.html")
+     iframe.style.width = "240px"
+    }else{
+        console.log("not found")
+    }
 
+}
 
 
 

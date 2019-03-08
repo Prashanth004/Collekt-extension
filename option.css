@@ -59,6 +59,22 @@
   width: 0;
   height: 0;
 }
+.iconHolder{
+  width:25px;
+  height:25px;
+  margin:5px;
+
+}
+
+img{
+  border-radius:50%
+}
+
+.noButton{
+border-style:none;
+background-color: white;
+margin:5px
+}
 
 .slider {
   position: absolute;
@@ -112,6 +128,13 @@ position: relative;
 top:0px;
 left:5px;
 
+
+  }
+  .deleteBtn{
+    font-size:10px;
+    position: relative;
+    top:0px;
+    left:35px;
 
   }
   
@@ -565,6 +588,18 @@ width:38%;
  border-style:none;
 
 }
+
+
+
+.addTolist{
+ 
+ color:rgb(116, 115, 115);
+background-color: white;
+border-style:none;
+  float:right;
+  position:relative;
+   top:-27px;
+}
 .no_button_last{
   margin:-8;
  height: 25px;
@@ -623,10 +658,21 @@ border-style: none;
   /* overflow-x: hidden; */
 }
 .no_button-nav{
+  
   background-color: white;
   width:100%;
   border-style: none;
   height:25px;
+}
+.filterButton{
+  float:left;
+  width:60%;
+}
+.filterDropDown{
+ width:140px; 
+  margin:auto;
+  display:grid;
+  grid-template-columns:25% 75%;
 }
 #navOptionDropdown{
   position:absolute;
@@ -641,7 +687,6 @@ border-style: none;
   left:80px;
   background-color:white;
   min-width: 70px;
-  width:170px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   padding:3px;
   margin:5px;
@@ -666,6 +711,7 @@ border-style: none;
 }
 .dropdown-content3 {
   position:relative;
+  padding:35px;
   top:9px;
   left:9px;
 

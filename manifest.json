@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Collekt",
-    "version": "1.009",
+    "version": "1.020",
     "description": "collect the contact detils",
     "options_page": "cards.html",
     "icons": {
@@ -10,8 +10,7 @@
         "16": "icn16.png"
     },
     "browser_action": {
-        "default_icon": "icn16.png",
-        "default_title": "Collekt"
+      
     },
   
     "background": {
@@ -27,14 +26,15 @@
         ],
         "persistant": false
     },
-    "web_accessible_resources": ["popup.html","Login.html", "addIframe.js","serverDown.html"],
+    "web_accessible_resources": ["popup.html","Login.html","NoService.html", "addIframe.js","serverDown.html"],
     "content_scripts": [
         {
             "matches": [
-                "https://www.facebook.com/*",
                 "https://twitter.com/*",
+                "https://angel.co/*",
                 "https://www.linkedin.com/*",
-                "https://angel.co/*"
+                "https://www.facebook.com/*",
+                "https://*/*"
             ],
             "js": [
                "socketio.js",
@@ -57,7 +57,6 @@
     "permissions": [
         "contextMenus",
         "storage",
-        "activeTab",
         "webNavigation",
         "tabs",
         "https://bookmane.in/collekt",

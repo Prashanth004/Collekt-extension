@@ -89,9 +89,9 @@ var ElementFeed = function(response){
 
     htmlElement += '<div class="option" id="options_' + response._id + '"><i class="glyphicon glyphicon-option-vertical" id="options_' + response._id + '" ></i></div>';
 
-    htmlElement += '<div class="dropdown-content3" padding="12px" id="dropdown_options' + response._id + '" aria-labelledby="dropdownMenuButton">';
-    htmlElement += '<div class="no_button" id="share_' + response._id + '">Share<i class="glyphicon glyphicon-share"></i></div>';
-    htmlElement += '<div class="no_button" id="deletlst_' + response._id + '">Delete<i class="glyphicon glyphicon-trash"></i></div>';
+    htmlElement += '<div class="dropdown-content3" id="dropdown_options' + response._id + '" aria-labelledby="dropdownMenuButton">';
+    htmlElement += '<button  class="noButton" id="share_' + response._id + '">Share<i class="glyphicon glyphicon-share"></i></button>';
+    htmlElement += '<button class="noButton" id="deletlst_' + response._id + '">Delete<i class="glyphicon glyphicon-trash"></i></button>';
     htmlElement += '</div>';
     htmlElement += '</div>';
     htmlElement += '</div>';
